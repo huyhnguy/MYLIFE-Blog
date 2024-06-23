@@ -27,3 +27,4 @@ router.post("/users/login", user_controller.user_log_in_post);
 router.get("/users/signup", user_controller.user_sign_up_get);
 router.post("/users/signup", user_controller.user_sign_up_post)
 
+module.exports = router;
