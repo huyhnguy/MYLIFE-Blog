@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const asyncHandler = require("express-async-handler");
+const jwt = require('jsonwebtoken');
 
 exports.user_list = asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: User list");
@@ -22,7 +23,18 @@ exports.user_log_in_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.user_log_in_post = asyncHandler(async (req, res, next) => {
-    res.send("Not implemented: user log in POST");
+    const user = new User({
+        username: 'john@gmail.com',
+        password: 'john',
+        first_name: 'John',
+        last_name: 'Doe',
+    });
+
+    jwt.sign({user: user}, 'secretkey', (err, token) => {
+        res.json({
+            token: token
+        })
+    })
 });
 
 exports.user_delete_get = asyncHandler(async (req, res, next) => {
