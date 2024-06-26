@@ -1,5 +1,10 @@
 const Post = require('../models/post');
 const asyncHandler = require("express-async-handler");
+const jwt = require('jsonwebtoken');
+
+exports.home = asyncHandler(async (req, res, next) => {
+    res.json({ message: "Hello from backend!" });
+})
 
 exports.post_list = asyncHandler(async (req, res, next) => {
     res.send("Not implemented: post list")
@@ -14,7 +19,16 @@ exports.post_create_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.post_create_post = asyncHandler (async (req, res, next) => {
-    res.send('Not impmlemented: Post create POST');
+    jwt.verify(req.token, 'secretkey', (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } else {
+            res.json({
+                message: 'Post created...',
+                authData
+            })
+        }
+    })
 });
 
 exports.post_update_get = asyncHandler (async (req, res, next) => {

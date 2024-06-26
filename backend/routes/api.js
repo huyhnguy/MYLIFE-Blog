@@ -1,16 +1,19 @@
 const express = require('express');
 const router = express.Router();
+const verifyToken = require('../verifyToken');
 
 const user_controller = require('../controllers/userController');
 const post_controller = require('../controllers/postController');
 const comment_controller = require('../controllers/commentController');
 
+router.get('/', post_controller.home);
 router.get("/posts", post_controller.post_list);
+router.get("/posts/create", post_controller.post_create_get);
+router.post("/posts/create", verifyToken,post_controller.post_create_post);
 router.post("/posts/:postid", post_controller.post_detail);
 router.put("/posts/:postid", post_controller.post_update_get);
 router.delete("/posts/:postid", post_controller.post_delete_get);
-router.get("/posts/create", post_controller.post_create_get);
-router.post("/posts/create", post_controller.post_create_post);
+
 
 router.get("/posts/:postid/comments", comment_controller.comment_list);
 router.get("/posts/:postid/comments/:commentid", comment_controller.comment_detail);
