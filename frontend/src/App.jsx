@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import Navbar from './navbar';
 
 
 function App() {
@@ -11,7 +12,11 @@ function App() {
   })
 
   return (
-    <div>{data}</div>
+    <>
+      <Navbar />
+      <div>{data}</div>
+    </>
+    
   )
 }
 
