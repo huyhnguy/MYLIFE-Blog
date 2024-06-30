@@ -13,7 +13,7 @@ function PostDetails() {
         fetch(url)
           .then((res) => res.json(res))
           .then((data) => setData(data));
-      })
+      }, []);
 
     
     if (data) {

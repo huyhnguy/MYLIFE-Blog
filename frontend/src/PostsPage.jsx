@@ -30,7 +30,8 @@ function PostsPage() {
         fetch("http://localhost:3000/api/posts")
           .then((res) => res.json(res))
           .then((data) => setPostsArray(data))
-      })
+      }, []);
+
 
     if (postsArray != null) {
         const posts = postsArray.map(post => <Post info={post} key={post._id}/>)
