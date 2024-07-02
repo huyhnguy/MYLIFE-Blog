@@ -57,10 +57,7 @@ exports.user_log_in_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.user_log_in_post = asyncHandler(async (req, res, next) => {
-    console.log(`username ${req.body.username}`);
-    console.log(`password ${req.body.password}`);
     const user = await User.findOne({ 'username': req.body.username }).exec();
-    console.log(`user query = ${user}`);
 
     const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
 
