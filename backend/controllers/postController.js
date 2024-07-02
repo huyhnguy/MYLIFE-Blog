@@ -7,11 +7,24 @@ exports.home = asyncHandler(async (req, res, next) => {
 })
 
 exports.post_list = asyncHandler(async (req, res, next) => {
-    res.send("Not implemented: post list")
+    jwt.verify(req.token, process.env.TOKEN_SECRET, (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } 
+    })
+
+    const allPosts = await Post.find({})
+        .sort({ date: 1 })
+        .populate("user")
+        .exec();
+
+    res.json(allPosts);
 })
 
 exports.post_detail = asyncHandler(async (req, res, next) => {
-    res.send(`Not implemented: Post detail ${req.params.id}`);
+    const post = await Post.findById(req.params.postId).populate("user").exec();
+
+    res.json(post);
 });
 
 exports.post_create_get = asyncHandler(async (req, res, next) => {
@@ -19,7 +32,8 @@ exports.post_create_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.post_create_post = asyncHandler (async (req, res, next) => {
-    jwt.verify(req.token, 'secretkey', (err, authData) => {
+    console.log(`token secret = ${process.env.TOKEN_SECRET}`);
+    jwt.verify(req.token, process.env.TOKEN_SECRET, (err, authData) => {
         if (err) {
             res.sendStatus(403);
         } else {
