@@ -62,7 +62,9 @@ exports.user_log_in_post = asyncHandler(async (req, res, next) => {
     const user = await User.findOne({ 'username': req.body.username }).exec();
     console.log(`user query = ${user}`);
 
-    if (user != null && req.body.password === user.password) {
+    const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+
+    if (user != null && isPasswordValid) {
         jwt.sign({user: user}, process.env.TOKEN_SECRET, (err, token) => {
             res.json({
                 token: token,
