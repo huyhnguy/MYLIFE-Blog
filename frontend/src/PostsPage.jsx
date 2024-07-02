@@ -24,31 +24,50 @@ function Post({ info }) {
 }
 
 function PostsPage() {
-    const [postsArray, setPostsArray] = useState(null)
+    const [postsArray, setPostsArray] = useState(null);
+    const [error, setError] = useState(null)
 
     useEffect(() => {
-        fetch("http://localhost:3000/api/posts")
-          .then((res) => res.json(res))
+        fetch("http://localhost:3000/api/posts", {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("authorization")}`,
+            },
+        })
+          .then((res) => handleError(res))
           .then((data) => setPostsArray(data))
-      }, []);
+          .catch((error) => {setError(error)});
+    }, []);
 
+    const handleError = (response) => {
+        if (!response.ok) {
+            throw Error(response.statusText);
+        } else {
+            return response.json(response);
+        }
+    }
 
-    if (postsArray != null) {
+    if (postsArray) {
         const posts = postsArray.map(post => <Post info={post} key={post._id}/>)
 
         return(
             <>
                 <Navbar />
-                <main className="posts">{posts}</main>
+                <main className="posts">
+                    {posts}
+                </main>
             </>
         )
     } else {
         return(
             <>
                 <Navbar />
-                <p>No posts</p>
+                {error ? <p>{error.name}: {error.message}</p> : <p>No posts</p>}
             </>
         )
+
     }
 
 }

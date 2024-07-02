@@ -5,6 +5,7 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import PostsPage from './PostsPage.jsx'
 import PostDetails from './PostDetails.jsx'
+import LogInForm from './LogInForm.jsx'
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path:"/posts/:postId",
     element: <PostDetails />
+  },
+  {
+    path:"/users/login",
+    element: <LogInForm />
   }
 
 ]);

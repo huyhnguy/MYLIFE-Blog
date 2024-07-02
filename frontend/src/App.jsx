@@ -11,9 +11,24 @@ function App() {
       .then((data) => setData(data.message))
   })
 
+  const handleLogout = () => {
+    localStorage.clear();
+  }
+
   return (
     <>
       <Navbar />
+      { localStorage.getItem("authorization") ? 
+        <>
+          <h1>Welcome back, {localStorage.getItem("name")}!</h1>
+          <a href="/" onClick={handleLogout}>Logout</a>
+        </>  : 
+        <>
+          <a href="/users/login">Log In</a>
+          <a href="">Sign up</a>
+        </>
+      }
+      
       <div>{data}</div>
     </>
     
