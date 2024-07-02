@@ -24,8 +24,8 @@ function App() {
           <a href="/" onClick={handleLogout}>Logout</a>
         </>  : 
         <>
-          <a href="/users/login">Log In</a>
-          <a href="">Sign up</a>
+          <a href="/login">Log In</a>
+          <a href="/signup">Sign up</a>
         </>
       }
       

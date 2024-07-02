@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import PostsPage from './PostsPage.jsx'
 import PostDetails from './PostDetails.jsx'
 import LogInForm from './LogInForm.jsx'
+import SignUpForm from './SignUpForm.jsx'
 
 const router = createBrowserRouter([
   {
@@ -21,8 +22,12 @@ const router = createBrowserRouter([
     element: <PostDetails />
   },
   {
-    path:"/users/login",
+    path:"/login",
     element: <LogInForm />
+  },
+  {
+    path:"/signup",
+    element: <SignUpForm />
   }
 
 ]);
