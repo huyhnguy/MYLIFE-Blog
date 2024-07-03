@@ -19,10 +19,11 @@ const postSchema = new Schema({
         type: String,
         required: true,
     },
-    comments: {
+    comments: [{
         type: Schema.Types.ObjectId,
         ref: 'Comment'
-    },
+
+    }],
     published: {
         type: Boolean,
         required: true,

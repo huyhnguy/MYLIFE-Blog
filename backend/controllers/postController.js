@@ -22,7 +22,7 @@ exports.post_list = asyncHandler(async (req, res, next) => {
 })
 
 exports.post_detail = asyncHandler(async (req, res, next) => {
-    const post = await Post.findById(req.params.postId).populate("user").exec();
+    const post = await Post.findById(req.params.postId).populate("user comments").exec();
 
     res.json(post);
 });

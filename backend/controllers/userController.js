@@ -65,7 +65,7 @@ exports.user_log_in_post = asyncHandler(async (req, res, next) => {
         jwt.sign({user: user}, process.env.TOKEN_SECRET, (err, token) => {
             res.json({
                 token: token,
-                name: `${user.first_name} ${user.last_name}`,
+                id: user._id,
             })
         })
     } else {
