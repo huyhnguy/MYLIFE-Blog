@@ -30,8 +30,8 @@ function LogInForm() {
             .then((data) => {
                 console.log(data);
                 if (data.token) {
-                    window.localStorage.setItem("authorization", data.token);
-                    window.localStorage.setItem("name", data.name);
+                    window.localStorage.setItem("token", data.token);
+                    window.localStorage.setItem("id", data.id);
                     let path = '/';
                     navigate(path);
                 }

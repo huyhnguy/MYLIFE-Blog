@@ -33,7 +33,7 @@ function PostsPage() {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("authorization")}`,
+                'Authorization': `Bearer ${localStorage.getItem("token")}`,
             },
         })
           .then((res) => handleError(res))
@@ -64,7 +64,7 @@ function PostsPage() {
         return(
             <>
                 <Navbar />
-                {error ? <p>{error.name}: {error.message}</p> : <p>No posts</p>}
+                {error ? <p>{error.name}: {error.message}</p> : <p>Loading...</p>}
             </>
         )
 
