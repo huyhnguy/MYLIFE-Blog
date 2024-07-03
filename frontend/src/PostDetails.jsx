@@ -49,7 +49,12 @@ function PostDetails() {
 
 
     if (data) {
-        const commentsElements = [...commentsArray].reverse().map(comment => <article key={comment._id}>{comment.content}</article>)
+        const commentsElements = [...commentsArray].reverse().map(comment => 
+            <article key={comment._id}>
+                <h3>{comment.fullname}</h3>
+                <p>{comment.date}</p>
+                <p>{comment.content}</p>
+            </article>)
 
         return(
             <>

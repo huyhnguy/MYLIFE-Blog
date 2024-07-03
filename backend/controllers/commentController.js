@@ -1,6 +1,7 @@
 const Comment = require('../models/comment');
 const asyncHandler = require("express-async-handler");
 const Post = require('../models/post');
+const User = require('../models/user');
 
 exports.comment_list = asyncHandler(async (req, res, next) => {
     res.send("Not implemented: comment list");
@@ -19,8 +20,11 @@ exports.comment_create_post = asyncHandler(async (req, res, next) => {
     console.log(req.body.comment);
     console.log(req.body.userId);
 
+    const user = await User.findById(req.body.userId).exec();
+
     const comment = new Comment({
         user: req.body.userId,
+        fullname: user.full_name,
         content: req.body.comment
     })
     await comment.save();
