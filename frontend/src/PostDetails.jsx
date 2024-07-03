@@ -50,7 +50,7 @@ function PostDetails() {
 
     if (data) {
         const commentsElements = [...commentsArray].reverse().map(comment => 
-            <article key={comment._id}>
+            <article key={comment._id} className='comment'>
                 <h3>{comment.fullname}</h3>
                 <p>{comment.date}</p>
                 <p>{comment.content}</p>
@@ -71,7 +71,9 @@ function PostDetails() {
                         <input type="text" placeholder="Add a comment..." id="comment" name="comment" className='comment-input'/>
                         <input type="submit" value="Comment" onClick={handleSubmit} />
                     </form>
-                    {commentsElements}
+                    <section className='comments'>
+                        {commentsElements}
+                    </section>
                 </section>
             </>
         )

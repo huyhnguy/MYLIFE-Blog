@@ -1,13 +1,14 @@
-.post {
+.post, .comment {
   border-radius: 10px;
   border: solid;
   padding: 1rem;
 }
 
-.posts {
+.posts, .comments {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: 10px;
 }
 
 .comment-input {
