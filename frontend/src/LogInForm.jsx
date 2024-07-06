@@ -31,7 +31,7 @@ function LogInForm() {
                 console.log(data);
                 if (data.token) {
                     window.localStorage.setItem("token", data.token);
-                    window.localStorage.setItem("id", data.id);
+                    window.localStorage.setItem("full_name", data.full_name);
                     let path = '/';
                     navigate(path);
                 }

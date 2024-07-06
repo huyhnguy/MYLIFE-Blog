@@ -20,7 +20,7 @@ function App() {
       <Navbar />
       { localStorage.getItem("token") ? 
         <>
-          <h1>Welcome back!</h1>
+          <h1>Welcome back, {localStorage.getItem("full_name")}</h1>
           <a href="/" onClick={handleLogout}>Logout</a>
         </>  : 
         <>
