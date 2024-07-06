@@ -4,6 +4,10 @@
   padding: 1rem;
 }
 
+.post {
+  overflow: hidden;
+}
+
 .posts, .comments {
   display: flex;
   flex-direction: column;

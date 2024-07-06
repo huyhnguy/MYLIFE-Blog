@@ -13,12 +13,14 @@ function Post({ info }) {
         navigate(path);
     };
 
+    const snippet = data.content.substring(0,300) + '...';
+
     return(
         <article className="post" onClick={handleClick}>
             <h1>{data.title}</h1>
             <h2>{data.user.first_name} {data.user.last_name}</h2>
             <h2>{data.date}</h2>
-            <p>{data.content}</p>
+            <p>{snippet}</p>
         </article>
     )
 }
