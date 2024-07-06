@@ -1,34 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react'
+import Navbar from './navbar';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState("NO MESSAGE");
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api")
+      .then((res) => res.json(res))
+      .then((data) => setData(data.message))
+  })
+
+  const handleLogout = () => {
+    localStorage.clear();
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Navbar />
+      { localStorage.getItem("token") ? 
+        <>
+          <h1>Welcome back!</h1>
+          <a href="/" onClick={handleLogout}>Logout</a>
+        </>  : 
+        <>
+          <a href="/login">Log In</a>
+          <a href="/signup">Sign up</a>
+        </>
+      }
+      
+      <div>{data}</div>
     </>
+    
   )
 }
 
