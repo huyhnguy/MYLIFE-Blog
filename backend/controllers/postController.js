@@ -17,7 +17,7 @@ exports.post_list = asyncHandler(async (req, res, next) => {
     })
 
     const allPosts = await Post.find({})
-        .sort({ date: 1 })
+        .sort({ date: -1 })
         .populate("user")
         .exec();
 
