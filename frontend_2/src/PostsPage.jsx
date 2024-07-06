@@ -3,8 +3,8 @@ import Navbar from './navbar'
 import './index.css'
 import { useNavigate } from 'react-router-dom';
 
-function Post({ info }) {
-    const [data, setData] = useState(info);
+function Post({ info, published = true }) {
+    const data = info;
 
     let navigate = useNavigate();
 
@@ -15,6 +15,7 @@ function Post({ info }) {
 
     return(
         <article className="post" onClick={handleClick}>
+            {published === false && <p className="unpublished-text"><strong>unpublished</strong></p>}
             <h1>{data.title}</h1>
             <h2>{data.user.first_name} {data.user.last_name}</h2>
             <h2>{data.date}</h2>
@@ -50,7 +51,7 @@ function PostsPage() {
     }
 
     if (postsArray) {
-        const posts = postsArray.map(post => <Post info={post} key={post._id}/>)
+        const posts = postsArray.map((post) => post.published ? <Post info={post} key={post._id}/> : <Post info={post} key={post._id} published={false}/>)
 
         return(
             <>

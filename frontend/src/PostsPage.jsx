@@ -50,7 +50,7 @@ function PostsPage() {
     }
 
     if (postsArray) {
-        const posts = postsArray.map(post => <Post info={post} key={post._id}/>)
+        const posts = postsArray.map((post) => post.published && <Post info={post} key={post._id}/> )
 
         return(
             <>

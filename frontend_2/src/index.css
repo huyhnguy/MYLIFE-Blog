@@ -27,3 +27,7 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.unpublished-text {
+  color: red;
+}
