@@ -7,6 +7,7 @@ import PostsPage from './PostsPage.jsx'
 import PostDetails from './PostDetails.jsx'
 import LogInForm from './LogInForm.jsx'
 import SignUpForm from './SignUpForm.jsx'
+import PostForm from './PostForm.jsx'
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path:"/signup",
     element: <SignUpForm />
+  },
+  {
+    path:"/posts/create",
+    element: <PostForm />
   }
 
 ]);

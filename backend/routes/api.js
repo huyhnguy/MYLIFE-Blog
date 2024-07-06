@@ -18,7 +18,7 @@ router.delete("/posts/:postId", post_controller.post_delete_get);
 
 router.get("/posts/:postid/comments", comment_controller.comment_list);
 router.get("/posts/:postid/comments/create", comment_controller.comment_create_get);
-router.post("/posts/:postid/comments/create", comment_controller.comment_create_post);
+router.post("/posts/:postid/comments/create", verifyToken, comment_controller.comment_create_post);
 router.get("/posts/:postid/comments/:commentid", comment_controller.comment_detail);
 router.delete("/posts/:postid/comments/:commentid", comment_controller.comment_delete_get);
 

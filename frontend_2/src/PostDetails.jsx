@@ -15,13 +15,12 @@ function PostDetails() {
           .then((res) => res.json(res))
           .then((data) => {
             setData(data)
-            console.log(data);
         });
     }, []);
 
 
     if (data) {
-        const commentsElements = data.comments.reverse().map(comment => 
+        const commentsElements = [...data.comments].reverse().map(comment => 
             <article key={comment._id} className='comment'>
                 <h3>{comment.fullname}</h3>
                 <p>{comment.date}</p>

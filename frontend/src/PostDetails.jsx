@@ -25,21 +25,18 @@ function PostDetails() {
         e.preventDefault();
 
         const comment = document.getElementById("comment").value;
-        console.log(comment);
 
         let commentUrl = url + "/comments/create"
-
-        const userId = localStorage.getItem("id");
         
         fetch(commentUrl, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`,
             },
             body: JSON.stringify({
                 comment: comment,
-                userId: userId,
             })
         })
             .then(res => res.json())
