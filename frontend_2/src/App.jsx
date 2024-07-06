@@ -3,13 +3,6 @@ import Navbar from './navbar';
 
 
 function App() {
-  const [data, setData] = useState("NO MESSAGE");
-
-  useEffect(() => {
-    fetch("http://localhost:3000/api")
-      .then((res) => res.json(res))
-      .then((data) => setData(data.message))
-  })
 
   const handleLogout = () => {
     localStorage.clear();
@@ -20,7 +13,7 @@ function App() {
       <Navbar />
       { localStorage.getItem("token") ? 
         <>
-          <h1>Welcome back!</h1>
+          <h1>Welcome back, {localStorage.getItem("full_name")}</h1>
           <a href="/" onClick={handleLogout}>Logout</a>
         </>  : 
         <>
@@ -28,8 +21,6 @@ function App() {
           <a href="/signup">Sign up</a>
         </>
       }
-      
-      <div>{data}</div>
     </>
     
   )

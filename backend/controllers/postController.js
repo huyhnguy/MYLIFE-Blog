@@ -1,9 +1,12 @@
 const Post = require('../models/post');
 const asyncHandler = require("express-async-handler");
 const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
 exports.home = asyncHandler(async (req, res, next) => {
-    res.json({ message: "Hello from backend!" });
+    const user = await User.findById(req.body.id).exec();
+
+    res.json(user);
 })
 
 exports.post_list = asyncHandler(async (req, res, next) => {

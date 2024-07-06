@@ -7,6 +7,7 @@ const post_controller = require('../controllers/postController');
 const comment_controller = require('../controllers/commentController');
 
 router.get('/', post_controller.home);
+router.post('/', post_controller.home);
 router.get("/posts", verifyToken, post_controller.post_list);
 router.get("/posts/create", post_controller.post_create_get);
 router.post("/posts/create", verifyToken, post_controller.post_create_post);
