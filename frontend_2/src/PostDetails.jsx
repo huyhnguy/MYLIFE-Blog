@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import Navbar from './navbar'
 import './index.css'
 import { useParams } from 'react-router-dom'
+import ReactHtmlParser from 'react-html-parser';
+
 
 function PostDetails() {
     const [data, setData] = useState(null)
@@ -34,7 +36,7 @@ function PostDetails() {
                     <h1>{data.title}</h1>
                     <h2>{data.user.first_name} {data.user.last_name}</h2>
                     <h2>{data.date}</h2>
-                    <p>{data.content}</p>
+                    {ReactHtmlParser(data.htmlContent)}
                 </main>
                 <section>
                     <h2>Comments</h2>

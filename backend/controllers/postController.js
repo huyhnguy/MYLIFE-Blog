@@ -36,7 +36,7 @@ exports.post_create_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.post_create_post =(req, res, next) => {
-    console.log(`token secret = ${process.env.TOKEN_SECRET}`);
+    console.log(`content => ${req.body.content}`);
     jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
         if (err) {
             res.sendStatus(403);
@@ -44,6 +44,7 @@ exports.post_create_post =(req, res, next) => {
             const post = new Post({
                 title: req.body.title,
                 content: req.body.content,
+                htmlContent: req.body.htmlContent,
                 user: authData.user._id,
                 published: true,
             })

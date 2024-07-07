@@ -19,6 +19,10 @@ const postSchema = new Schema({
         type: String,
         required: true,
     },
+    htmlContent: {
+        type: String,
+        required: true,
+    },
     comments: [{
         type: Schema.Types.ObjectId,
         ref: 'Comment'

@@ -1,5 +1,44 @@
 import Navbar from "./navbar";
 import { useNavigate } from "react-router-dom";
+import React, { useRef } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
+
+
+function Tinymce({}) {
+    const editorRef = useRef(null);
+    const log = (e) => {
+        e.preventDefault();
+      if (editorRef.current) {
+        console.log(editorRef.current.getContent());
+      }
+    };
+    return (
+      <>
+        <Editor
+          id="content"
+          apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
+          onInit={(evt, editor) => editorRef.current = editor}
+          initialValue="<p>This is the initial content of the editor.</p>"
+          init={{
+            height: 500,
+            menubar: false,
+            plugins: [
+              'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+              'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+              'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+            ],
+            toolbar: 'undo redo | blocks | ' +
+              'bold italic forecolor | alignleft aligncenter ' +
+              'alignright alignjustify | bullist numlist outdent indent | ' +
+              'removeformat | help',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            selector: '#content'
+          }}
+        />
+        <button onClick={log}>Log editor content</button>
+      </>
+    );
+  }
 
 function PostForm() {
     let navigate = useNavigate();
@@ -8,8 +47,11 @@ function PostForm() {
         event.preventDefault();
 
         const title = document.getElementById("title").value;
-        const content = document.getElementById("content").value;
-        console.log(`title ${title} content ${content}`);
+        //const content = document.getElementById("content");
+        const content = tinymce.activeEditor.getContent({ format: 'text' });
+        const htmlContent = tinymce.activeEditor.getContent();
+        console.log(content);
+        console.log(htmlContent);
 
         fetch('http://localhost:3000/api/posts/create', {
             method: 'POST',
@@ -21,6 +63,7 @@ function PostForm() {
             body: JSON.stringify({
                 title: title,
                 content: content,
+                htmlContent: htmlContent,
                 id: localStorage.getItem("id"),
             })
         })
@@ -39,7 +82,7 @@ function PostForm() {
                 <label htmlFor="title">Title</label>
                 <input type="text" id="title" name="title" />
                 <label htmlFor="content">Content</label>
-                <textarea name="content" id="content" cols="30" rows="10"></textarea>
+                <Tinymce />
                 <input type="submit" onClick={handleSubmit}/>
             </form>
         </>
