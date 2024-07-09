@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Navbar from './navbar'
 import './index.css'
 import { useNavigate } from 'react-router-dom';
+import { DateTime } from 'luxon';
 
 function Post({ info }) {
     const [data, setData] = useState(info);
@@ -14,12 +15,13 @@ function Post({ info }) {
     };
 
     const snippet = data.content.substring(0,300) + '...';
+    const dateFormatted = DateTime.fromISO(data.date).toLocaleString(DateTime.DATETIME_MED);
 
     return(
         <article className="post" onClick={handleClick}>
             <h1>{data.title}</h1>
             <h2>{data.user.first_name} {data.user.last_name}</h2>
-            <h2>{data.date}</h2>
+            <h2>{dateFormatted}</h2>
             <p>{snippet}</p>
         </article>
     )
