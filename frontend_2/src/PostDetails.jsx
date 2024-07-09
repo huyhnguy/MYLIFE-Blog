@@ -3,6 +3,7 @@ import Navbar from './navbar'
 import './index.css'
 import { useParams } from 'react-router-dom'
 import ReactHtmlParser from 'react-html-parser';
+import { DateTime } from 'luxon';
 
 
 function PostDetails() {
@@ -20,14 +21,21 @@ function PostDetails() {
         });
     }, []);
 
-
     if (data) {
-        const commentsElements = [...data.comments].reverse().map(comment => 
-            <article key={comment._id} className='comment'>
-                <h3>{comment.fullname}</h3>
-                <p>{comment.date}</p>
-                <p>{comment.content}</p>
-            </article>)
+        const commentsElements = [...data.comments].reverse().map((comment) => {
+            const commentDateFormatted = DateTime.fromISO(comment.date).toLocaleString(DateTime.DATETIME_MED);
+            return(
+                <article key={comment._id} className='comment'>
+                    <h3>{comment.fullname}</h3>
+                    <p>{commentDateFormatted}</p>
+                    <p>{comment.content}</p>
+                </article>
+            )
+
+        })
+
+        const postDateFormatted = DateTime.fromISO(data.date).toLocaleString(DateTime.DATETIME_MED);
+
 
         return(
             <>
@@ -35,7 +43,7 @@ function PostDetails() {
                 <main>
                     <h1>{data.title}</h1>
                     <h2>{data.user.first_name} {data.user.last_name}</h2>
-                    <h2>{data.date}</h2>
+                    <h2>{postDateFormatted}</h2>
                     {ReactHtmlParser(data.htmlContent)}
                 </main>
                 <section>

@@ -34,4 +34,21 @@
 
 .unpublished-text {
   color: red;
+  text-align: center;
+  margin-top: 0;
+}
+
+.edit-button {
+  width: 35px;
+  align-self: start;
+}
+
+.post-header .first-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0;
+}
+
+h1, h2, h3 {
+  margin-top: 0;
 }

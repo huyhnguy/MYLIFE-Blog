@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import Navbar from './navbar'
 import './index.css'
 import { useNavigate } from 'react-router-dom';
+import EditIcon from './assets/pencil.svg'
+import { DateTime } from 'luxon';
+
 
 function Post({ info, published = true }) {
     const data = info;
@@ -15,19 +18,28 @@ function Post({ info, published = true }) {
 
     const snippet = data.content.substring(0,300) + '...';
 
+    const dateFormatted = DateTime.fromISO(data.date).toLocaleString(DateTime.DATETIME_MED);
 
     return(
         <article className="post" onClick={handleClick}>
             {published === false && <p className="unpublished-text"><strong>unpublished</strong></p>}
-            <h1>{data.title}</h1>
-            <h2>{data.user.first_name} {data.user.last_name}</h2>
-            <h2>{data.date}</h2>
+            <header className="post-header">
+                <div className="first-row">
+                    <h1>{data.title}</h1>
+                    <img src={EditIcon} alt="edit-button" className="edit-button"/>
+                </div>
+                <div className='second-row'>
+                    <h2>{data.user.first_name} {data.user.last_name}</h2>
+                    <h2>{dateFormatted}</h2>
+                </div>
+
+            </header>
             <p>{snippet}</p>
         </article>
     )
 }
 
-function PostsPage() {
+function PostsPage({published = true}) {
     const [postsArray, setPostsArray] = useState(null);
     const [error, setError] = useState(null)
 
@@ -54,7 +66,18 @@ function PostsPage() {
     }
 
     if (postsArray) {
-        const posts = postsArray.map((post) => post.published ? <Post info={post} key={post._id}/> : <Post info={post} key={post._id} published={false}/>)
+        let posts;
+
+        if (published) {
+            posts = postsArray.map((post) => {
+                if (post.published) {return (<Post info={post} key={post._id}/>)}
+            } )
+        } else {
+            posts = postsArray.map((post) => {
+                if (!post.published) {return (<Post info={post} key={post._id} published={false}/>)}
+            } )
+        }
+
 
         return(
             <>

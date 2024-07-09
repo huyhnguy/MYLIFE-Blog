@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { DateTime } = require("luxon");
 
 const Schema = mongoose.Schema;
 
@@ -13,7 +14,7 @@ const postSchema = new Schema({
     },
     date: {
         type: Date,
-        default: Date.now(),
+        default: new Date(),
     },
     content: {
         type: String,
@@ -32,6 +33,12 @@ const postSchema = new Schema({
         type: Boolean,
         required: true,
     }
+})
+
+postSchema.virtual("date_formatted").get(function() {
+    const isoDateString = this.date.toISOString();
+
+    return DateTime.fromISO(isoDateString).toLocaleString(DateTime.DATETIME_MED);
 })
 
 module.exports = mongoose.model("Post", postSchema);
