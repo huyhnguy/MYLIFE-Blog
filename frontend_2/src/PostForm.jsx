@@ -1,10 +1,10 @@
 import Navbar from "./navbar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import React, { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
 
-function Tinymce({}) {
+function Tinymce({ value }) {
     const editorRef = useRef(null);
     const log = (e) => {
         e.preventDefault();
@@ -18,7 +18,7 @@ function Tinymce({}) {
           id="content"
           apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
           onInit={(evt, editor) => editorRef.current = editor}
-          initialValue="<p>This is the initial content of the editor.</p>"
+          initialValue={ value ? value : "<p>This is the initial content of the editor.</p>" }
           init={{
             height: 500,
             menubar: false,
@@ -42,6 +42,8 @@ function Tinymce({}) {
 
 function PostForm() {
     let navigate = useNavigate();
+    const location = useLocation();
+    console.log(location.state);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -80,9 +82,9 @@ function PostForm() {
             <Navbar />
             <form action="" method="POST">
                 <label htmlFor="title">Title</label>
-                <input type="text" id="title" name="title" />
+                <input type="text" id="title" name="title" value={location.state && location.state.data.title}/>
                 <label htmlFor="content">Content</label>
-                <Tinymce />
+                <Tinymce value={location.state && location.state.data.htmlContent}/>
                 <input type="submit" onClick={handleSubmit}/>
             </form>
         </>

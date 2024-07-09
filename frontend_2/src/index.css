@@ -38,9 +38,13 @@
   margin-top: 0;
 }
 
-.edit-button {
+.edit-icon {
   width: 35px;
   align-self: start;
+}
+
+.edit-button {
+  padding: 0;
 }
 
 .post-header .first-row {

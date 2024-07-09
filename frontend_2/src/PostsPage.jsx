@@ -12,9 +12,18 @@ function Post({ info, published = true }) {
     let navigate = useNavigate();
 
     const handleClick = () => {
-        let path = './' + info._id;
+        const path = './' + info._id;
         navigate(path);
     };
+
+    const handleEdit = (e) => {
+        const path = './' + info._id + '/edit';
+        console.log(`this is the data => ${data}`);
+        navigate(path, {
+            state: {data}
+        });
+        e.stopPropagation();
+    }
 
     const snippet = data.content.substring(0,300) + '...';
 
@@ -26,7 +35,9 @@ function Post({ info, published = true }) {
             <header className="post-header">
                 <div className="first-row">
                     <h1>{data.title}</h1>
-                    <img src={EditIcon} alt="edit-button" className="edit-button"/>
+                    <button className="edit-button" onClick={handleEdit}>
+                        <img src={EditIcon} alt="edit-button" className="edit-icon" />
+                    </button>
                 </div>
                 <div className='second-row'>
                     <h2>{data.user.first_name} {data.user.last_name}</h2>

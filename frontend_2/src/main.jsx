@@ -27,6 +27,10 @@ const router = createBrowserRouter([
     element: <PostDetails />
   },
   {
+    path:"/posts/:postId/edit",
+    element: <PostForm />
+  },
+  {
     path:"/login",
     element: <LogInForm />
   },
