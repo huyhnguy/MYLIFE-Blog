@@ -25,6 +25,7 @@ exports.post_list = asyncHandler(async (req, res, next) => {
 })
 
 exports.post_detail = asyncHandler(async (req, res, next) => {
+    console.log(req.params);
     const post = await Post.findById(req.params.postId).populate("user comments").exec();
     console.log(post);
 
@@ -54,8 +55,20 @@ exports.post_create_post =(req, res, next) => {
     }))
 };
 
-exports.post_update_get = asyncHandler (async (req, res, next) => {
-    res.send('Not implemented: post update GET')
+exports.post_update_get = asyncHandler(async (req, res, next) => {
+    jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } 
+    }));
+
+    const oldPost = await Post.findByIdAndUpdate(req.params.postId, {
+        title: req.body.title,
+        content: req.body.content,
+        htmlContent: req.body.htmlContent,
+    }).exec();
+
+    res.json(oldPost);
 });
 
 exports.post_update_post = asyncHandler (async (req, res, next) => {
