@@ -47,7 +47,7 @@ exports.post_create_post =(req, res, next) => {
                 content: req.body.content,
                 htmlContent: req.body.htmlContent,
                 user: authData.user._id,
-                published: true,
+                published: req.body.published,
             })
 
             await post.save();

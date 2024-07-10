@@ -7,12 +7,15 @@ import { Editor } from '@tinymce/tinymce-react';
 
 function Tinymce({ value }) {
     const editorRef = useRef(null);
+
+    /*
     const log = (e) => {
         e.preventDefault();
       if (editorRef.current) {
         console.log(editorRef.current.getContent());
       }
     };
+    */
     return (
       <>
         <Editor
@@ -36,7 +39,6 @@ function Tinymce({ value }) {
             selector: '#content'
           }}
         />
-        <button onClick={log}>Log editor content</button>
       </>
     );
   }
@@ -87,7 +89,8 @@ function PostForm() {
       //const content = document.getElementById("content");
       const content = tinymce.activeEditor.getContent({ format: 'text' });
       const htmlContent = tinymce.activeEditor.getContent();
-
+      const published = document.getElementById("published").checked;
+    
       fetch('http://localhost:3000/api/posts/create', {
         method: 'POST',
         headers: {
@@ -100,6 +103,7 @@ function PostForm() {
             content: content,
             htmlContent: htmlContent,
             id: localStorage.getItem("id"),
+            published: published
         })
       })
         .then(response => response.json())
@@ -118,6 +122,8 @@ function PostForm() {
                 <input type="text" id="title" name="title" defaultValue={location.state && location.state.data.title}/>
                 <label htmlFor="content">Content</label>
                 <Tinymce value={location.state && location.state.data.htmlContent}/>
+                <input type="checkbox" id="published" name="published"/>
+                <label htmlFor="published">Publish post to the public?</label>
                 <input type="submit" onClick={location.state ? handleEdit : handleSubmit}/>
             </form>
         </>

@@ -13,7 +13,6 @@ function LogInForm() {
 
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-        console.log(`username ${username} password ${password}`);
 
         fetch('http://localhost:3000/api/users/login', {
             method: 'POST',
