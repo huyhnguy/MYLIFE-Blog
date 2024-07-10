@@ -1,19 +1,20 @@
 import { useState, useEffect } from 'react'
 import Navbar from './navbar'
 import './index.css'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import ReactHtmlParser from 'react-html-parser';
 import { DateTime } from 'luxon';
 import TrashIcon from './assets/trash-can.svg';
 
 
-function PostDetails() {
+function PostDetails({ published }) {
     const [data, setData] = useState(null);
     const [comments, setComments] = useState(null);
 
     let postIdObject = useParams();
     let postId = postIdObject.postId;
     let url = "http://localhost:3000/api/posts/" + postId;
+
 
     useEffect(() => {
         fetch(url)
@@ -69,6 +70,7 @@ function PostDetails() {
             <>
                 <Navbar />
                 <main>
+                    {published === false && <p className="unpublished-text"><strong>unpublished</strong></p>}
                     <h1>{data.title}</h1>
                     <h2>{data.user.first_name} {data.user.last_name}</h2>
                     <h2>{postDateFormatted}</h2>

@@ -123,7 +123,7 @@ function PostForm() {
                 <input type="text" id="title" name="title" defaultValue={location.state && location.state.data.title}/>
                 <label htmlFor="content">Content</label>
                 <Tinymce value={location.state && location.state.data.htmlContent}/>
-                <input type="checkbox" id="published" name="published"/>
+                <input type="checkbox" id="published" name="published" checked={location.state && location.state.data.published}/>
                 <label htmlFor="published">Publish post to the public?</label>
                 <input type="submit" onClick={location.state ? handleEdit : handleSubmit}/>
             </form>

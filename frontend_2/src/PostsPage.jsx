@@ -7,7 +7,7 @@ import { DateTime } from 'luxon';
 import TrashIcon from './assets/trash-can.svg'
 
 
-function Post({ info, published = true, deleteFunction }) {
+function Post({ info, published, deleteFunction }) {
     const data = info;
 
     let navigate = useNavigate();
@@ -119,7 +119,7 @@ function PostsPage({published = true}) {
 
         if (published) {
             posts = postsArray.map((post) => {
-                if (post.published) {return (<Post info={post} key={post._id} deleteFunction={(e) => {handleDelete(e, post._id)}}/>)}
+                if (post.published) {return (<Post info={post} key={post._id} published={true} deleteFunction={(e) => {handleDelete(e, post._id)}}/>)}
             } )
         } else {
             posts = postsArray.map((post) => {

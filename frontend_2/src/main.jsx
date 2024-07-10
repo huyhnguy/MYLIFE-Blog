@@ -23,11 +23,19 @@ const router = createBrowserRouter([
     element: <PostsPage published={false} />
   },
   {
+    path: "/posts/unpublished/:postId",
+    element: <PostDetails published={false} />
+  },
+  {
     path:"/posts/:postId",
     element: <PostDetails />
   },
   {
     path:"/posts/:postId/edit",
+    element: <PostForm />
+  },
+  {
+    path:"/posts/unpublished/:postId/edit",
     element: <PostForm />
   },
   {
