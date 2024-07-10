@@ -52,7 +52,6 @@ function Post({ info, published = true, deleteFunction }) {
                             <img src={TrashIcon} alt="trash-button" className="trash-icon"/>
                         </button>
                     </div>
-
                 </div>
                 <div className='second-row'>
                     <h2>{data.user.first_name} {data.user.last_name}</h2>
@@ -80,7 +79,7 @@ function PostsPage({published = true}) {
         })
           .then((res) => handleError(res))
           .then((data) => setPostsArray(data))
-          .catch((error) => {setError(error)});
+          .catch((error) => setError(error));
     }, []);
 
     const handleError = (response) => {
@@ -92,9 +91,7 @@ function PostsPage({published = true}) {
     }
 
     const handleDelete = (event, postId ) => {
-        console.log(postsArray);
         if (confirm("Press 'OK' to permanently delete this post.")) {
-            console.log('you pressed okay');
 
             const url = 'http://localhost:3000/api/posts/' + postId;
 
@@ -112,9 +109,8 @@ function PostsPage({published = true}) {
 
             const newArray = postsArray.filter((post) => post._id != postId);
             setPostsArray(newArray);
-        } else {
-            console.log('you pressed cancel');
-        }
+        } 
+
         event.stopPropagation();
     }
 
