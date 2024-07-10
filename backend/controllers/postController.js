@@ -76,7 +76,10 @@ exports.post_update_post = asyncHandler (async (req, res, next) => {
 });
 
 exports.post_delete_get = asyncHandler (async (req, res, next) => {
-    res.send('Not implemented: post delete GET');
+    console.log(req.params);
+    const post = await Post.findByIdAndDelete(req.params.postId).exec();
+
+    console.log(post);
 });
 
 exports.post_delete_post = asyncHandler (async (req, res, next) => {

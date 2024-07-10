@@ -38,14 +38,22 @@
   margin-top: 0;
 }
 
-.edit-icon {
+.edit-icon,
+.trash-icon {
   width: 35px;
-  align-self: start;
 }
 
-.edit-button {
+.edit-button,
+.trash-button {
   padding: 0;
+  height: 39px;
 }
+
+.post-buttons {
+  display: flex;
+  gap: 5px;
+}
+
 
 .post-header .first-row {
   display: flex;

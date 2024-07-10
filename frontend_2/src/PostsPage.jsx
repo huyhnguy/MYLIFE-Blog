@@ -4,9 +4,10 @@ import './index.css'
 import { useNavigate } from 'react-router-dom';
 import EditIcon from './assets/pencil.svg'
 import { DateTime } from 'luxon';
+import TrashIcon from './assets/trash-can.svg'
 
 
-function Post({ info, published = true }) {
+function Post({ info, published = true, deleteFunction }) {
     const data = info;
 
     let navigate = useNavigate();
@@ -25,6 +26,14 @@ function Post({ info, published = true }) {
         e.stopPropagation();
     }
 
+    const handleError = (response) => {
+        if (!response.ok) {
+            throw Error(response.statusText);
+        } else {
+            return response.json(response);
+        }
+    }
+
     const snippet = data.content.substring(0,300) + '...';
 
     const dateFormatted = DateTime.fromISO(data.date).toLocaleString(DateTime.DATETIME_MED);
@@ -35,9 +44,15 @@ function Post({ info, published = true }) {
             <header className="post-header">
                 <div className="first-row">
                     <h1>{data.title}</h1>
-                    <button className="edit-button" onClick={handleEdit}>
-                        <img src={EditIcon} alt="edit-button" className="edit-icon" />
-                    </button>
+                    <div className="post-buttons">
+                        <button className="edit-button" onClick={handleEdit}>
+                            <img src={EditIcon} alt="edit-button" className="edit-icon" />
+                        </button>
+                        <button className="trash-button" onClick={deleteFunction}>
+                            <img src={TrashIcon} alt="trash-button" className="trash-icon"/>
+                        </button>
+                    </div>
+
                 </div>
                 <div className='second-row'>
                     <h2>{data.user.first_name} {data.user.last_name}</h2>
@@ -76,16 +91,43 @@ function PostsPage({published = true}) {
         }
     }
 
+    const handleDelete = (event, postId ) => {
+        console.log(postsArray);
+        if (confirm("Press 'OK' to permanently delete this post.")) {
+            console.log('you pressed okay');
+
+            const url = 'http://localhost:3000/api/posts/' + postId;
+
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`,
+                },
+            })
+              .then((res) => handleError(res))
+              .then((data) => setPostsArray(data))
+              .catch((error) => {setError(error)});
+
+            const newArray = postsArray.filter((post) => post._id != postId);
+            setPostsArray(newArray);
+        } else {
+            console.log('you pressed cancel');
+        }
+        event.stopPropagation();
+    }
+
     if (postsArray) {
         let posts;
 
         if (published) {
             posts = postsArray.map((post) => {
-                if (post.published) {return (<Post info={post} key={post._id}/>)}
+                if (post.published) {return (<Post info={post} key={post._id} deleteFunction={(e) => {handleDelete(e, post._id)}}/>)}
             } )
         } else {
             posts = postsArray.map((post) => {
-                if (!post.published) {return (<Post info={post} key={post._id} published={false}/>)}
+                if (!post.published) {return (<Post info={post} key={post._id} published={false} deleteFunction={handleDelete}/>)}
             } )
         }
 
