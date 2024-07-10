@@ -66,6 +66,7 @@ exports.post_update_get = asyncHandler(async (req, res, next) => {
         title: req.body.title,
         content: req.body.content,
         htmlContent: req.body.htmlContent,
+        published: req.body.published
     }).exec();
 
     res.json(oldPost);

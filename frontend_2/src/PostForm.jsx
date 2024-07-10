@@ -58,7 +58,7 @@ function PostForm() {
       //const content = document.getElementById("content");
       const content = tinymce.activeEditor.getContent({ format: 'text' });
       const htmlContent = tinymce.activeEditor.getContent();
-
+      const published = document.getElementById("published").checked;
 
       fetch(url, {
         method: 'PUT',
@@ -71,6 +71,7 @@ function PostForm() {
             title: title,
             content: content,
             htmlContent: htmlContent,
+            published: published
 
         })
       })
