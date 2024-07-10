@@ -123,7 +123,7 @@ function PostsPage({published = true}) {
             } )
         } else {
             posts = postsArray.map((post) => {
-                if (!post.published) {return (<Post info={post} key={post._id} published={false} deleteFunction={handleDelete}/>)}
+                if (!post.published) {return (<Post info={post} key={post._id} published={false} deleteFunction={(e) => {handleDelete(e, post._id)}}/>)}
             } )
         }
 

@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const Comment = require('../models/comment');
 const asyncHandler = require("express-async-handler");
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -77,8 +78,12 @@ exports.post_update_post = asyncHandler (async (req, res, next) => {
 });
 
 exports.post_delete_get = asyncHandler (async (req, res, next) => {
-    console.log(req.params);
-    const post = await Post.findByIdAndDelete(req.params.postId).exec();
+    const post = await Post.findById(req.params.postId).exec();
+    post.comments.forEach(async(comment) => {
+        await Comment.findByIdAndDelete(comment).exec();
+    });
+
+    await Post.findByIdAndDelete(req.params.postId).exec();
 
     console.log(post);
 });
