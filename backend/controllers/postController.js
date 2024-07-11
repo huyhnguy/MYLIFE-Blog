@@ -26,9 +26,7 @@ exports.post_list = asyncHandler(async (req, res, next) => {
 })
 
 exports.post_detail = asyncHandler(async (req, res, next) => {
-    console.log(req.params);
     const post = await Post.findById(req.params.postId).populate("user comments").exec();
-    console.log(post);
 
     res.json(post);
 });
@@ -42,6 +40,7 @@ exports.post_create_post =(req, res, next) => {
     jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
         if (err) {
             res.sendStatus(403);
+            next();
         } else {
             const post = new Post({
                 title: req.body.title,
@@ -60,6 +59,7 @@ exports.post_update_get = asyncHandler(async (req, res, next) => {
     jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
         if (err) {
             res.sendStatus(403);
+            next();
         } 
     }));
 
@@ -78,14 +78,18 @@ exports.post_update_post = asyncHandler (async (req, res, next) => {
 });
 
 exports.post_delete_get = asyncHandler (async (req, res, next) => {
+    jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+            next();
+        } 
+    }))
     const post = await Post.findById(req.params.postId).exec();
     post.comments.forEach(async(comment) => {
         await Comment.findByIdAndDelete(comment).exec();
     });
 
     await Post.findByIdAndDelete(req.params.postId).exec();
-
-    console.log(post);
 });
 
 exports.post_delete_post = asyncHandler (async (req, res, next) => {
