@@ -6,6 +6,9 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors');
+const compression = require('compression');
+const helmet = require('helmet');
+const RateLimit = require('express-rate-limit')
 
 const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api');
@@ -24,6 +27,14 @@ async function main() {
   await mongoose.connect(mongoDB);
 }
 
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 80,
+})
+
+app.use(limiter);
+app.use(helmet());
+app.use(compression());
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
