@@ -23,7 +23,7 @@ function SignUpForm() {
         }
         console.log(`username ${username} password ${password} firstname ${firstname} lastname ${lastname}`);
 
-        fetch('http://localhost:3000/api/users/signup', {
+        fetch('https://childish-slime-city.glitch.me/api/users/signup', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
