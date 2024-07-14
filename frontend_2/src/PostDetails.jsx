@@ -13,7 +13,7 @@ function PostDetails({ published }) {
 
     let postIdObject = useParams();
     let postId = postIdObject.postId;
-    let url = "https://childish-slime-city.glitch.me/api/posts/" + postId;
+    let url = "http://localhost:3000/api/posts/" + postId;
 
 
     useEffect(() => {

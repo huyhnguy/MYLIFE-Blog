@@ -1,3 +1,20 @@
+// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 200 to 1000
+
+.nunito-sans-coolfont {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
+}
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+}
+
 .post, .comment {
   border-radius: 10px;
   border: solid;
@@ -22,14 +39,6 @@
 .comment-form {
   display: flex;
   gap: 10px;
-}
-
-#root {
-  margin: auto;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .unpublished-text {
@@ -63,4 +72,92 @@
 
 h1, h2, h3 {
   margin-top: 0;
+}
+
+.navbar {
+  list-style-type:none;
+  padding: 0;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.navbar a, 
+header a {
+  text-decoration: none;
+  color: black;
+}
+
+.navbar a:hover {
+  color: #007BFF;
+}
+
+.logo {
+  text-align: center;
+  margin: 0;
+  font-weight: 900;
+  font-size: 3em;
+}
+
+header {
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.login-button,
+.submit-button {
+  background: none;
+  color: white;
+  background-color: #007BFF;
+  border: solid;
+  border-radius: 20px;
+  padding: 5px 20px;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.login-button:hover {
+  background-color: #469fff;
+}
+
+.invisible-div {
+  width: 82.7px;
+}
+
+.close-button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.login-form {
+  border: none;
+  border-radius: 15px;
+}
+
+.login-form header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.login-form h1 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.login-form form {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.submit-button {
+  grid-column: span 2;
 }

@@ -32,7 +32,7 @@ function PostsPage() {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        fetch("https://childish-slime-city.glitch.me/api/posts", {
+        fetch("https://localhost:3000/api/posts", {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

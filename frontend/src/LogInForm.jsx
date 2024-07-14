@@ -15,7 +15,7 @@ function LogInForm() {
         const password = document.getElementById("password").value;
         console.log(`username ${username} password ${password}`);
 
-        fetch('https://childish-slime-city.glitch.me/api/users/login', {
+        fetch('https://localhost:3000/api/users/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

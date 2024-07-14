@@ -48,7 +48,7 @@ function PostForm() {
     const location = useLocation();
     let postIdObject = useParams();
     let postId = postIdObject.postId;
-    let url = 'https://childish-slime-city.glitch.me/api/posts/' + postId;
+    let url = 'http://localhost:3000/api/posts/' + postId;
     console.log(location.state);
 
     const handleEdit = (event) => {
@@ -92,7 +92,7 @@ function PostForm() {
       const htmlContent = tinymce.activeEditor.getContent();
       const published = document.getElementById("published").checked;
     
-      fetch('https://childish-slime-city.glitch.me/api/posts/create', {
+      fetch('http://localhost:3000/api/posts/create', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

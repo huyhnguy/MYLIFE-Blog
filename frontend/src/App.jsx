@@ -6,7 +6,7 @@ function App() {
   const [data, setData] = useState("NO MESSAGE");
 
   useEffect(() => {
-    fetch("https://childish-slime-city.glitch.me/api")
+    fetch("https://localhost:3000/api")
       .then((res) => res.json(res))
       .then((data) => setData(data.message))
   })
