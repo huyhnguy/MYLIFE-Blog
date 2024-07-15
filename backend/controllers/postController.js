@@ -35,25 +35,28 @@ exports.post_create_get = asyncHandler(async (req, res, next) => {
     res.send(`Not implemented: Post create GET`);
 });
 
-exports.post_create_post =(req, res, next) => {
+exports.post_create_post =asyncHandler(async(req, res, next) => {
     console.log(`content => ${req.body.content}`);
+    let userId;
     jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
         if (err) {
             res.sendStatus(403);
             next();
-        } else {
-            const post = new Post({
-                title: req.body.title,
-                content: req.body.content,
-                htmlContent: req.body.htmlContent,
-                user: authData.user._id,
-                published: req.body.published,
-            })
-
-            await post.save();
-        }
+        } 
+        userId = authData.user._id;
     }))
-};
+
+    const post = new Post({
+        title: req.body.title,
+        content: req.body.content,
+        htmlContent: req.body.htmlContent,
+        user: userId,
+        published: req.body.published,
+    })
+
+    await post.save();
+    res.json(post);
+});
 
 exports.post_update_get = asyncHandler(async (req, res, next) => {
     jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {

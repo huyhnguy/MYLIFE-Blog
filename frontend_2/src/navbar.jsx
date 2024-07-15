@@ -1,8 +1,11 @@
 import LogInForm from "./LogInForm"
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
-    const [login, setLogin] = useState(false);
+    const [login, setLogin] = useState(localStorage.getItem("token"));
+
+    const navigate = useNavigate();
 
     const handleLogin = () => {
         const loginForm = document.querySelector("#login-form");
@@ -11,16 +14,20 @@ function Navbar() {
 
     const loginSuccess = () => {
         setLogin(true);
+        let path = '/';
+        navigate(path);
     }
 
     const handleLogout = () => {
         localStorage.clear();
         setLogin(false);
+        let path = '/';
+        navigate(path);
     }
 
     return(
         <>
-            <header>
+            <header className="main-header">
                 <div className="invisible-div"></div>
                 <h1 className="logo"><a href="/">MYLIFE</a></h1>
                 { login ? <button className="login-button" onClick={handleLogout}>Logout</button> : <button className="login-button" onClick={handleLogin}>Login</button> }
@@ -33,6 +40,7 @@ function Navbar() {
                     <li><a href="/posts/create">Create a Post</a></li>
                 </ul>
             </nav>
+            <hr className="navbar-line"/>
             <LogInForm loginFunction={loginSuccess} />
         </>
 

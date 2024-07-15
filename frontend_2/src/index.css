@@ -13,6 +13,12 @@
 
 body {
   font-family: "Nunito Sans", sans-serif;
+  margin: 0;
+}
+
+main, section, .post-form {
+  max-width: 1300px;
+  margin-inline: 100px;
 }
 
 .post, .comment {
@@ -23,6 +29,10 @@ body {
 
 .post {
   overflow: hidden;
+}
+
+.comments {
+  margin: 0;
 }
 
 .posts, .comments {
@@ -98,10 +108,11 @@ header a {
   font-size: 3em;
 }
 
-header {
+.main-header {
   display:flex;
   justify-content: space-between;
   align-items: center;
+  margin: 0 15px;
 }
 
 .login-button,
@@ -160,4 +171,21 @@ header {
 
 .submit-button {
   grid-column: span 2;
+}
+
+.navbar-line {
+  height: 10px;
+  border: 0;
+  box-shadow: 0 10px 10px -10px #333 inset;
+}
+
+.post-form {
+  display:grid;
+  grid-template-columns: auto auto;
+  gap: 15px;
+}
+
+.post-form .submit-button {
+  width: fit-content;
+  margin:auto;
 }

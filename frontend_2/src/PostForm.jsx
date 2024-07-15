@@ -103,29 +103,35 @@ function PostForm() {
             title: title,
             content: content,
             htmlContent: htmlContent,
-            id: localStorage.getItem("id"),
             published: published
         })
       })
         .then(response => response.json())
         .then((data) => {
-            console.log(data);
-            let path = '/posts';
+            let path;
+                    
+            if (data.published) {
+              path = '/posts';
+            } else {
+              path = '/posts/unpublished'
+            }
+
             navigate(path);
+
         })
     }
 
     return(
         <>
             <Navbar />
-            <form action="" method="POST">
+            <form action="" method="POST" className="post-form">
                 <label htmlFor="title">Title</label>
                 <input type="text" id="title" name="title" defaultValue={location.state && location.state.data.title}/>
                 <label htmlFor="content">Content</label>
                 <Tinymce value={location.state && location.state.data.htmlContent}/>
                 <input type="checkbox" id="published" name="published" defaultChecked={location.state && location.state.data.published}/>
                 <label htmlFor="published">Publish post to the public?</label>
-                <input type="submit" onClick={location.state ? handleEdit : handleSubmit}/>
+                <input type="submit" onClick={location.state ? handleEdit : handleSubmit} className="submit-button"/>
             </form>
         </>
 
