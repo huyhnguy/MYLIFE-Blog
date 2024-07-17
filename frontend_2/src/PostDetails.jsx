@@ -8,8 +8,10 @@ import TrashIcon from './assets/trash-can.svg';
 
 
 function PostDetails({ published }) {
+    const [errorMessage, setErrorMessage] = useState(null)
     const [data, setData] = useState(null);
     const [comments, setComments] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     let postIdObject = useParams();
     let postId = postIdObject.postId;
@@ -17,12 +19,32 @@ function PostDetails({ published }) {
 
 
     useEffect(() => {
-        fetch(url)
-          .then((res) => res.json(res))
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`,
+            },
+        })
+          .then((res) => {
+            if (res.status === 403) {
+                throw new Error('Forbidden. Please log in to see the post.')
+            } else {
+                return res.json();
+            }
+          })
           .then((data) => {
             setData(data);
             setComments(data.comments);
-        });
+            setLoading(false)
+          })
+          .catch((e) => {
+            console.log(e);
+            setErrorMessage(e.message);
+            setLoading(false);
+          })
+
     }, []);
 
     const handleDelete = (commentId) => {
@@ -43,6 +65,24 @@ function PostDetails({ published }) {
             setComments(newCommentArray);
         } 
 
+    }
+
+    if (loading) {
+        return(
+            <>
+                <Navbar />
+                <p>Loading...</p>
+            </>
+        )
+    }
+
+    if (errorMessage) {
+        return(
+            <>
+                <Navbar />
+                <p>{errorMessage}</p>
+            </>
+        )
     }
 
     if (data) {
@@ -88,11 +128,8 @@ function PostDetails({ published }) {
                 </section>
             </>
         )
-    } else  {
-        return(
-            <p>Loading...</p>
-        )
-    }
+    } 
+    
 
 }
 

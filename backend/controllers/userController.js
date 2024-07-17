@@ -8,10 +8,8 @@ exports.user_sign_up_post = [
     body("username", "Username empty")
         .trim()
         .isLength({ min:1 })
-        .custom(async (value, {req}) => {
-            console.log("HEY");
+        .custom(async (value) => {
             const user = await User.findOne({ 'username': value }).exec();
-            console.log("THERE");
             if (user != null) {
                 throw new Error("Username already exists. Please choose a different one.")
             } 
