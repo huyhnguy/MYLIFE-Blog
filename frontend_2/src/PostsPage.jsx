@@ -7,7 +7,7 @@ import { DateTime } from 'luxon';
 import TrashIcon from './assets/trash-can.svg'
 
 
-function Post({ info, published, deleteFunction }) {
+function Post({ info, published, deleteFunction, keyId }) {
     const data = info;
 
     let navigate = useNavigate();
@@ -19,7 +19,6 @@ function Post({ info, published, deleteFunction }) {
 
     const handleEdit = (e) => {
         const path = './' + info._id + '/edit';
-        console.log(`this is the data => ${data}`);
         navigate(path, {
             state: {data}
         });
@@ -39,11 +38,10 @@ function Post({ info, published, deleteFunction }) {
     const dateFormatted = DateTime.fromISO(data.date).toLocaleString(DateTime.DATETIME_MED);
 
     return(
-        <article className="post" onClick={handleClick}>
-            {published === false && <p className="unpublished-text"><strong>unpublished</strong></p>}
+        <article className="post" key={keyId}>
             <header className="post-header">
                 <div className="first-row">
-                    <h1>{data.title}</h1>
+                    <h1 className="post-title"><a href={published ? 'posts/' + info._id : 'unpublished/' + info._id}>{data.title}</a></h1>
                     <div className="post-buttons">
                         <button className="edit-button" onClick={handleEdit}>
                             <img src={EditIcon} alt="edit-button" className="edit-icon" />
@@ -54,12 +52,13 @@ function Post({ info, published, deleteFunction }) {
                     </div>
                 </div>
                 <div className='second-row'>
-                    <h2>{data.user.first_name} {data.user.last_name}</h2>
-                    <h2>{dateFormatted}</h2>
+                    <p><strong>By {data.user.first_name} {data.user.last_name}</strong></p>
+                    <p className='date'>{dateFormatted}</p>
                 </div>
 
             </header>
             <p>{snippet}</p>
+            <hr />
         </article>
     )
 }
@@ -119,11 +118,21 @@ function PostsPage({published = true}) {
 
         if (published) {
             posts = postsArray.map((post) => {
-                if (post.published) {return (<Post info={post} key={post._id} published={true} deleteFunction={(e) => {handleDelete(e, post._id)}}/>)}
+                if (post.published) {return (
+                    <>
+                        <Post info={post} keyId={post._id} published={true} deleteFunction={(e) => {handleDelete(e, post._id)}}/>
+                        
+                    </>
+                )}
             } )
         } else {
             posts = postsArray.map((post) => {
-                if (!post.published) {return (<Post info={post} key={post._id} published={false} deleteFunction={(e) => {handleDelete(e, post._id)}}/>)}
+                if (!post.published) {return (
+                    <>
+                        <Post info={post} keyId={post._id} published={false} deleteFunction={(e) => {handleDelete(e, post._id)}}/>
+                        
+                    </>
+                )}
             } )
         }
 
@@ -131,9 +140,17 @@ function PostsPage({published = true}) {
         return(
             <>
                 <Navbar />
-                <main className="posts">
-                    {posts}
-                </main>
+                { published ? 
+                    <main className="posts">
+                        <h1 className="posts-title">Posts</h1>
+                        {posts}
+                    </main>
+                    :
+                    <main className="posts unpublished">
+                        <h1 className="posts-title">Unpublished Posts</h1>
+                        {posts}
+                    </main>
+                }
             </>
         )
     } else {

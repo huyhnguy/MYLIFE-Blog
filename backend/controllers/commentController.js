@@ -1,20 +1,7 @@
 const Comment = require('../models/comment');
 const asyncHandler = require("express-async-handler");
 const Post = require('../models/post');
-const User = require('../models/user');
 const jwt = require('jsonwebtoken');
-
-exports.comment_list = asyncHandler(async (req, res, next) => {
-    res.send("Not implemented: comment list");
-})
-
-exports.comment_detail = asyncHandler(async (req, res, next) => {
-    res.send(`Not implemented: comment detail: ${req.params.id}`);
-})
-
-exports.comment_create_get = asyncHandler(async (req, res, next) => {
-    res.send("not implemented: comment create GET");
-});
 
 exports.comment_create_post = (req, res, next) => {
     jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
@@ -32,9 +19,6 @@ exports.comment_create_post = (req, res, next) => {
             res.json(comment);
         }
     }))
-
-
-
 };
 
 exports.comment_delete_get = asyncHandler(async (req, res, next) => {

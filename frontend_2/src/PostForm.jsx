@@ -1,6 +1,6 @@
 import Navbar from "./navbar";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
 
@@ -8,21 +8,13 @@ import { Editor } from '@tinymce/tinymce-react';
 function Tinymce({ value }) {
     const editorRef = useRef(null);
 
-    /*
-    const log = (e) => {
-        e.preventDefault();
-      if (editorRef.current) {
-        console.log(editorRef.current.getContent());
-      }
-    };
-    */
     return (
       <>
         <Editor
           id="content"
           apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
           onInit={(evt, editor) => editorRef.current = editor}
-          initialValue={ value ? value : "<p>This is the initial content of the editor.</p>" }
+          initialValue={ value && value }
           init={{
             height: 500,
             menubar: false,
@@ -44,12 +36,13 @@ function Tinymce({ value }) {
   }
 
 function PostForm() {
+  const [errorArray, setErrorArray] = useState(null);
+
     let navigate = useNavigate();
     const location = useLocation();
     let postIdObject = useParams();
     let postId = postIdObject.postId;
     let url = 'http://localhost:3000/api/posts/' + postId;
-    console.log(location.state);
 
     const handleEdit = (event) => {
       event.preventDefault();
@@ -109,14 +102,22 @@ function PostForm() {
         .then(response => response.json())
         .then((data) => {
             let path;
-                    
-            if (data.published) {
-              path = '/posts';
-            } else {
-              path = '/posts/unpublished'
+            console.log(data);
+            console.log(data.published);
+
+            if (data.errors) {
+              setErrorArray(data.errors);
             }
 
-            navigate(path);
+            if (data.published) {
+              path = '/posts';
+              navigate(path);
+            } else if (data.published === false) {
+              path = '/posts/unpublished'
+              navigate(path);
+            }
+
+
 
         })
     }
@@ -124,6 +125,12 @@ function PostForm() {
     return(
         <>
             <Navbar />
+            <h1 className="post-form-title">Create a Post</h1>
+            {errorArray && 
+                <ul>
+                    {errorArray.map(error => <li className="post-error">{error.msg}</li>)}
+                </ul>
+            }
             <form action="" method="POST" className="post-form">
                 <label htmlFor="title">Title</label>
                 <input type="text" id="title" name="title" defaultValue={location.state && location.state.data.title}/>
@@ -133,6 +140,7 @@ function PostForm() {
                 <label htmlFor="published">Publish post to the public?</label>
                 <input type="submit" onClick={location.state ? handleEdit : handleSubmit} className="submit-button"/>
             </form>
+
         </>
 
     )

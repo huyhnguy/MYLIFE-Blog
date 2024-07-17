@@ -4,6 +4,7 @@ import './index.css'
 import { useNavigate } from 'react-router-dom';
 
 function LogInForm({ loginFunction }) {
+    const [error, setError] = useState(null);
 
     let navigate = useNavigate();
 
@@ -14,6 +15,8 @@ function LogInForm({ loginFunction }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        if (error) {setError(null)};
 
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
@@ -29,9 +32,18 @@ function LogInForm({ loginFunction }) {
                 password: password,
             })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 401) {
+                    return 'The username and password you entered does not match any account. Please try again.'
+                } 
+                
+                return response.json();
+            })
             .then((data) => {
-                console.log(data);
+                if (data === 'The username and password you entered does not match any account. Please try again.') {
+                    setError(data);
+                }
+
                 if (data.token) {
                     window.localStorage.setItem("token", data.token);
                     window.localStorage.setItem("full_name", data.full_name);
@@ -46,6 +58,9 @@ function LogInForm({ loginFunction }) {
 
     const handleClose = () => {
         const loginForm = document.querySelector("#login-form");
+        document.querySelector("#username").value = "";
+        document.querySelector("#password").value = "";
+        if (error) {setError(null)};
         loginForm.close();
     }
 
@@ -61,9 +76,11 @@ function LogInForm({ loginFunction }) {
                     <label htmlFor="username">Username</label>
                     <input type="text" name="username" id="username"/>
                     <label htmlFor="password">Password</label>
-                    <input type="text" name="password" id="password"/>
+                    <input type="password" name="password" id="password"/>
+                    { error && <p className="login-error">{error}</p> }
                     <input type="submit" value="Submit" onClick={handleSubmit} className="submit-button"/>
                 </form>
+
             </dialog>
         </>
     )

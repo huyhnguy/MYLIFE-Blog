@@ -1,21 +1,22 @@
-import { useState, useEffect } from 'react'
-import Navbar from './navbar'
 import './index.css'
 import { useNavigate } from 'react-router-dom';
 
-function LogInForm() {
-    const [data, setData] = useState(null)
+function LogInForm({ loginFunction }) {
 
     let navigate = useNavigate();
+
+    const clearFormFields = () => {
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-        console.log(`username ${username} password ${password}`);
 
-        fetch('https://localhost:3000/api/users/login', {
+        fetch('http://localhost:3000/api/users/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -32,22 +33,36 @@ function LogInForm() {
                 if (data.token) {
                     window.localStorage.setItem("token", data.token);
                     window.localStorage.setItem("full_name", data.full_name);
+                    clearFormFields();
                     let path = '/';
                     navigate(path);
+                    handleClose();
+                    loginFunction();
                 }
             })
     }
 
+    const handleClose = () => {
+        const loginForm = document.querySelector("#login-form");
+        loginForm.close();
+    }
+
     return(
         <>
-            <Navbar />
-            <form action="" method="POST">
-                <label htmlFor="username">Username</label>
-                <input type="text" name="username" id="username"/>
-                <label htmlFor="password">Password</label>
-                <input type="text" name="password" id="password"/>
-                <input type="submit" value="Submit" onClick={handleSubmit}/>
-            </form>
+            <dialog className="login-form" id="login-form">
+                <header>
+                    <h1>Log In</h1>
+                    <button className="close-button" onClick={handleClose}>&#x274c;</button>
+                </header>
+                <p>Not a member? <a href="/signup">Create an Account</a></p>
+                <form action="" method="POST">
+                    <label htmlFor="username">Username</label>
+                    <input type="text" name="username" id="username"/>
+                    <label htmlFor="password">Password</label>
+                    <input type="text" name="password" id="password"/>
+                    <input type="submit" value="Submit" onClick={handleSubmit} className="submit-button"/>
+                </form>
+            </dialog>
         </>
     )
 }

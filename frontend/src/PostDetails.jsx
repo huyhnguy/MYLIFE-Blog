@@ -8,10 +8,11 @@ import { DateTime } from 'luxon';
 function PostDetails() {
     const [data, setData] = useState(null)
     const [commentsArray, setCommentsArray] = useState(null);
+    console.log(data);
 
     let postIdObject = useParams();
     let postId = postIdObject.postId;
-    let url = "https://localhost:3000/api/posts/" + postId;
+    let url = "http://localhost:3000/api/posts/" + postId;
 
     useEffect(() => {
         fetch(url)
@@ -19,14 +20,13 @@ function PostDetails() {
           .then((data) => {
             setData(data)
             setCommentsArray(data.comments);
-            console.log(data);
         });
     }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const comment = document.getElementById("comment").value;
+        const commentInput = document.getElementById("comment")
 
         let commentUrl = url + "/comments/create"
         
@@ -38,11 +38,15 @@ function PostDetails() {
                 'Authorization': `Bearer ${localStorage.getItem("token")}`,
             },
             body: JSON.stringify({
-                comment: comment,
+                comment: commentInput.value,
             })
         })
             .then(res => res.json())
-            .then(comment => setCommentsArray([...commentsArray, comment]))
+            .then((comment) => {
+                setCommentsArray([...commentsArray, comment])
+                commentInput.value = "";
+                console.log(commentInput)
+            })
 
     }
 
@@ -56,6 +60,7 @@ function PostDetails() {
                     <h3>{comment.fullname}</h3>
                     <p>{commentDateFormatted}</p>
                     <p>{comment.content}</p>
+                    <hr />
                 </article>
             )
 
@@ -68,19 +73,22 @@ function PostDetails() {
                 <Navbar />
                 <main>
                     <h1>{data.title}</h1>
-                    <h2>{data.user.first_name} {data.user.last_name}</h2>
-                    <h2>{dateFormatted}</h2>
+                    <div className="second-row">
+                        <p><strong>By {data.user.first_name} {data.user.last_name}</strong></p>
+                        <p className="date">{dateFormatted}</p>
+                    </div>
                     {ReactHtmlParser(data.htmlContent)}
                 </main>
                 <section>
+                    <hr />
                     <h2>Comments</h2>
                     <form action="" method="POST" className="comment-form">
                         <input type="text" placeholder="Add a comment..." id="comment" name="comment" className='comment-input'/>
                         <input type="submit" value="Comment" onClick={handleSubmit} />
                     </form>
-                    <section className='comments'>
+                    <div className='comments'>
                         {commentsElements}
-                    </section>
+                    </div>
                 </section>
             </>
         )

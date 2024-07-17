@@ -3,6 +3,7 @@ const Comment = require('../models/comment');
 const asyncHandler = require("express-async-handler");
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const { body, validationResult } = require("express-validator")
 
 exports.home = asyncHandler(async (req, res, next) => {
     const user = await User.findById(req.body.id).exec();
@@ -31,32 +32,45 @@ exports.post_detail = asyncHandler(async (req, res, next) => {
     res.json(post);
 });
 
-exports.post_create_get = asyncHandler(async (req, res, next) => {
-    res.send(`Not implemented: Post create GET`);
-});
+exports.post_create_post =[
+    body("title", "title empty")
+        .trim()
+        .isLength({ min:1 })
+        .escape(),
+    body("content", "content empty")
+        .trim()
+        .isLength({ min:1 })
+        .escape(),
 
-exports.post_create_post =asyncHandler(async(req, res, next) => {
-    console.log(`content => ${req.body.content}`);
-    let userId;
-    jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
-        if (err) {
-            res.sendStatus(403);
-            next();
-        } 
-        userId = authData.user._id;
-    }))
+    asyncHandler(async(req, res, next) => {
+        console.log(`content => ${req.body.content}`);
+        let userId;
+        jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
+            if (err) {
+                res.sendStatus(403);
+                next();
+            } 
+            userId = authData.user._id;
+        }))
+    
+        const errors = validationResult(req)
 
-    const post = new Post({
-        title: req.body.title,
-        content: req.body.content,
-        htmlContent: req.body.htmlContent,
-        user: userId,
-        published: req.body.published,
+        if (!errors.isEmpty()) {
+            return res.json({ errors: errors.array() });
+        } else {
+            const post = new Post({
+                title: req.body.title,
+                content: req.body.content,
+                htmlContent: req.body.htmlContent,
+                user: userId,
+                published: req.body.published,
+            })
+        
+            await post.save();
+            res.json(post);
+        }
     })
-
-    await post.save();
-    res.json(post);
-});
+]
 
 exports.post_update_get = asyncHandler(async (req, res, next) => {
     jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
@@ -76,10 +90,6 @@ exports.post_update_get = asyncHandler(async (req, res, next) => {
     res.json(oldPost);
 });
 
-exports.post_update_post = asyncHandler (async (req, res, next) => {
-    res.send('Not implemented: post update POST')
-});
-
 exports.post_delete_get = asyncHandler (async (req, res, next) => {
     jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
         if (err) {
@@ -93,8 +103,4 @@ exports.post_delete_get = asyncHandler (async (req, res, next) => {
     });
 
     await Post.findByIdAndDelete(req.params.postId).exec();
-});
-
-exports.post_delete_post = asyncHandler (async (req, res, next) => {
-    res.send('Not implemented: post delete POST');
 });

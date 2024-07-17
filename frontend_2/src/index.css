@@ -16,19 +16,34 @@ body {
   margin: 0;
 }
 
-main, section, .post-form {
-  max-width: 1300px;
-  margin-inline: 100px;
+main, section, .post-form, .signup-form, .signup-title, .signup-error, .post-error {
+  max-width: 80%;
+  margin-inline: auto;
 }
 
-.post, .comment {
-  border-radius: 10px;
-  border: solid;
-  padding: 1rem;
+.icon {
+  width: 100px;
+}
+
+.website-title {
+  margin: 0;
 }
 
 .post {
   overflow: hidden;
+}
+
+.second-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 2em;
+}
+.second-row p {
+  margin: 0;
+}
+
+.date {
+  color: grey;
 }
 
 .comments {
@@ -105,7 +120,9 @@ header a {
   text-align: center;
   margin: 0;
   font-weight: 900;
-  font-size: 3em;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
 }
 
 .main-header {
@@ -128,8 +145,15 @@ header a {
   outline: inherit;
 }
 
-.login-button:hover {
+.login-button:hover, .submit-button:hover {
   background-color: #469fff;
+}
+
+.login-error {
+  grid-column: span 2;
+  color: red;
+  width: 245.47px;
+  margin: 0;
 }
 
 .invisible-div {
@@ -179,13 +203,40 @@ header a {
   box-shadow: 0 10px 10px -10px #333 inset;
 }
 
-.post-form {
-  display:grid;
-  grid-template-columns: auto auto;
+.post-form, .signup-form {
+  display: grid;
+  grid-template-columns: max-content auto;
   gap: 15px;
 }
 
-.post-form .submit-button {
+.post-form .submit-button,
+.signup-form .submit-button {
   width: fit-content;
   margin:auto;
 }
+
+.signup-title, .posts-title, .post-form-title {
+  text-align: center;
+  color: black;
+}
+
+.signup-error, .post-error {
+  color: red;
+}
+
+.post-title:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.unpublished, .unpublished a {
+  color: grey;
+}
+
+
+
+
+
+
+
+

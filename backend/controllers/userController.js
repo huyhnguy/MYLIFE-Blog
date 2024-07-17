@@ -4,32 +4,36 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require("express-validator")
 const bcrypt = require('bcryptjs');
 
-exports.user_list = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: User list");
-})
-
-exports.user_detail = asyncHandler(async (req, res, next) => {
-    res.send(`Not Implemented: User detail: ${res.params.id}`);
-});
-
-exports.user_sign_up_get = asyncHandler(async (req, res, next) => {
-    res.send("Not implemented: User sign up GET");
-});
-
 exports.user_sign_up_post = [
-    body("username", "username empty")
+    body("username", "Username empty")
+        .trim()
+        .isLength({ min:1 })
+        .custom(async (value, {req}) => {
+            console.log("HEY");
+            const user = await User.findOne({ 'username': value }).exec();
+            console.log("THERE");
+            if (user != null) {
+                throw new Error("Username already exists. Please choose a different one.")
+            } 
+        })
+        .escape(),
+    body("password", "Password empty")
         .trim()
         .isLength({ min:1 })
         .escape(),
-    body("password", "password empty")
+    body("confirmPassword", "'Confirm password' field is empty")
+        .trim()
+        .isLength({ min:1 })
+        .custom((value, { req }) => {
+            return value === req.body.password;
+        })
+        .withMessage("Passwords do not match")
+        .escape(),
+    body("firstname", "First name empty")
         .trim()
         .isLength({ min:1 })
         .escape(),
-    body("firstname", "first name empty")
-        .trim()
-        .isLength({ min:1 })
-        .escape(),
-    body("lastname", "last name empty")
+    body("lastname", "Last name empty")
         .trim()
         .isLength({ min:1 })
         .escape(),
@@ -39,6 +43,7 @@ exports.user_sign_up_post = [
         if (!errors.isEmpty()) {
             return res.json({ errors: errors.array() });
         } else {
+
             const salt = await bcrypt.genSalt(10)
             const hashedPassword = await bcrypt.hash(req.body.password, salt)
             const user = new User({
@@ -48,46 +53,49 @@ exports.user_sign_up_post = [
                 last_name: req.body.lastname,
             })
             await user.save();
+            res.json({ success: "success" });
         }
     })
 ]
 
-exports.user_log_in_get = asyncHandler(async (req, res, next) => {
-    res.send("Not implemented: user log in GET");
-});
+exports.user_log_in_post = [
+    body("username", "username is empty.")
+        .trim()
+        .isLength({ min: 1 })
+        .escape(),
+    body("password", "password is empty.")
+        .trim()
+        .isLength({ min: 1 })
+        .escape(),
 
-exports.user_log_in_post = asyncHandler(async (req, res, next) => {
-    const user = await User.findOne({ 'username': req.body.username }).exec();
+    asyncHandler(async (req, res, next) => {
+        const errors = validationResult(req)
 
-    const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+        if (!errors.isEmpty()) {
+            return res.json({ errors: errors.array() });
+        } else {
+            const user = await User.findOne({ 'username': req.body.username }).exec();
 
-    if (user != null && isPasswordValid) {
-        jwt.sign({user: user}, process.env.TOKEN_SECRET, (err, token) => {
-            res.json({
-                token: token,
-                full_name: user.full_name,
-            })
-        })
-    } else {
-        res.sendStatus(401);
-    }
+            if (user) {
+                const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+    
+                console.log(isPasswordValid);
+                if (isPasswordValid) {
+                    jwt.sign({user: user}, process.env.TOKEN_SECRET, (err, token) => {
+                        res.json({
+                            token: token,
+                            full_name: user.full_name,
+                        })
+                    })
+                } else {
+                    res.sendStatus(401);
+                }
+            } else {
+                res.sendStatus(401);
+            }
 
+        }
+    })
+]
 
-});
-
-exports.user_delete_get = asyncHandler(async (req, res, next) => {
-    res.send("Not implemeneted: user delete GET");
-});
-
-exports.user_delete_post = asyncHandler(async (req, res, next) => {
-    res.send("Not implemented: user delete POST");
-})
-
-exports.user_update_get = asyncHandler(async (req, res, next) => {
-    res.send("Not implemented: User update GET");
-});
-
-exports.user_update_post = asyncHandler(async (req, res, next) => {
-    res.send("Not implemented: User update POST");
-});
 

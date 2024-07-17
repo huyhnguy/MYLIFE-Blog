@@ -56,9 +56,9 @@ function PostDetails({ published }) {
                             <img src={TrashIcon} alt="trash-button" className="trash-icon"/>
                         </button>
                     </div>
-
                     <p>{commentDateFormatted}</p>
                     <p>{comment.content}</p>
+                    <hr />
                 </article>
             )
 
@@ -70,23 +70,27 @@ function PostDetails({ published }) {
             <>
                 <Navbar />
                 <main>
-                    {published === false && <p className="unpublished-text"><strong>unpublished</strong></p>}
+                    {published === false && <p className="unpublished-text"><strong>Unpublished</strong></p>}
                     <h1>{data.title}</h1>
-                    <h2>{data.user.first_name} {data.user.last_name}</h2>
-                    <h2>{postDateFormatted}</h2>
+                    <div className="second-row">
+                        <p><strong>By {data.user.first_name} {data.user.last_name}</strong></p>
+                        <p className="date">{postDateFormatted}</p>
+                    </div>
+
                     {ReactHtmlParser(data.htmlContent)}
                 </main>
                 <section>
+                    <hr />
                     <h2>Comments</h2>
-                    <section className='comments'>
+                    <div className='comments'>
                         {commentsElements}
-                    </section>
+                    </div>
                 </section>
             </>
         )
     } else  {
         return(
-            <p>No data</p>
+            <p>Loading...</p>
         )
     }
 

@@ -38,8 +38,8 @@ function SignUpForm() {
     return(
         <>
             <Navbar />
-            <h1>Sign Up Form</h1>
-            <form action="" method="POST">
+            <h1 className="signup-title">Sign Up</h1>
+            <form action="" method="POST" className="signup-form">
                 <label htmlFor="username">Username</label>
                 <input type="text" name="username" id="username"/>
                 <label htmlFor="password">Password</label>
@@ -48,7 +48,7 @@ function SignUpForm() {
                 <input type="text" name="firstname" id="firstname"/>
                 <label htmlFor="lastname">Last name</label>
                 <input type="text" name="lastname" id="lastname"/>
-                <input type="submit" value="Submit" onClick={handleSubmit}/>
+                <input type="submit" value="Submit" className="submit-button" onClick={handleSubmit}/>
             </form>
         </>
     )
