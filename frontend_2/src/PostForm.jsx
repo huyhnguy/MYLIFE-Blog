@@ -43,10 +43,10 @@ function PostForm() {
     const location = useLocation();
     let postIdObject = useParams();
     let postId = postIdObject.postId;
-    let url = 'http://localhost:3000/api/posts/' + postId;
+    let url = 'https://unleashed-pool-ticket.glitch.me/api/posts/' + postId;
 
     useEffect(() => {
-      fetch("http://localhost:3000/api/posts/create", {
+      fetch("https://unleashed-pool-ticket.glitch.me/api/posts/create", {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -107,7 +107,7 @@ function PostForm() {
       const htmlContent = tinymce.activeEditor.getContent();
       const published = document.getElementById("published").checked;
     
-      fetch('http://localhost:3000/api/posts/create', {
+      fetch('https://unleashed-pool-ticket.glitch.me/api/posts/create', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

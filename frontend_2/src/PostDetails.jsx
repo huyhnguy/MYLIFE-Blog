@@ -15,7 +15,7 @@ function PostDetails({ published }) {
 
     let postIdObject = useParams();
     let postId = postIdObject.postId;
-    let url = "http://localhost:3000/api/posts/" + postId;
+    let url = "https://unleashed-pool-ticket.glitch.me/api/posts/" + postId;
 
 
     useEffect(() => {
@@ -50,7 +50,7 @@ function PostDetails({ published }) {
     const handleDelete = (commentId) => {
         if (confirm("Press 'OK' to permanently delete this comment.")) {
 
-            const url = 'http://localhost:3000/api/posts/' + postId + '/comments/' + commentId;
+            const url = 'https://unleashed-pool-ticket.glitch.me/api/posts/' + postId + '/comments/' + commentId;
 
             fetch(url, {
                 method: 'DELETE',

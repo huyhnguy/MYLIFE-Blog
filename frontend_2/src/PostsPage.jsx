@@ -68,7 +68,7 @@ function PostsPage({published = true}) {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        fetch("http://localhost:3000/api/posts", {
+        fetch("https://unleashed-pool-ticket.glitch.me/api/posts", {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -92,7 +92,7 @@ function PostsPage({published = true}) {
     const handleDelete = (event, postId ) => {
         if (confirm("Press 'OK' to permanently delete this post.")) {
 
-            const url = 'http://localhost:3000/api/posts/' + postId;
+            const url = 'https://unleashed-pool-ticket.glitch.me/api/posts/' + postId;
 
             fetch(url, {
                 method: 'DELETE',
