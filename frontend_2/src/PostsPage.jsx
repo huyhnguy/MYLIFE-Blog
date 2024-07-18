@@ -111,7 +111,9 @@ function PostsPage({published = true}) {
               .catch((error) => {
                 if (error.message === 'Forbidden') {
                     alert('Forbidden. Please log in to delete posts.')
-                };
+                } else {
+                    alert(error.message);
+                }
               });
 
 
