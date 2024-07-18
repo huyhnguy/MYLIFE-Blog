@@ -14,6 +14,8 @@ The main purpose of this project was to practice setting up an API and accessing
 - Using a rich text editor (TinyMCE)
 - Deploying a backend API, and a separate frontend
 - React
+- Following Web Content Accessibility Guidelines (WCAG)
+- Responsive Design
 
 ## Live Sites
 
