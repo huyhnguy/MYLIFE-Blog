@@ -22,6 +22,5 @@ exports.comment_create_post = (req, res, next) => {
 };
 
 exports.comment_delete_get = asyncHandler(async (req, res, next) => {
-    console.log(req.params);
-    const comment = await Comment.findByIdAndDelete(req.params.commentId).exec();
+    await Comment.findByIdAndDelete(req.params.commentId).exec();
 })

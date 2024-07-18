@@ -82,6 +82,7 @@ function PostsPage({published = true}) {
     }, []);
 
     const handleError = (response) => {
+        console.log(response);
         if (!response.ok) {
             throw Error(response.statusText);
         } else {
@@ -103,11 +104,17 @@ function PostsPage({published = true}) {
                 },
             })
               .then((res) => handleError(res))
-              .then((data) => setPostsArray(data))
-              .catch((error) => {setError(error)});
+              .then(() => {
+                const newArray = postsArray.filter((post) => post._id != postId);
+                setPostsArray(newArray);
+              })
+              .catch((error) => {
+                if (error.message === 'Forbidden') {
+                    alert('Forbidden. Please log in to delete posts.')
+                };
+              });
 
-            const newArray = postsArray.filter((post) => post._id != postId);
-            setPostsArray(newArray);
+
         } 
 
         event.stopPropagation();

@@ -21,15 +21,21 @@ exports.post_list = asyncHandler(async (req, res, next) => {
 })
 
 exports.post_detail = asyncHandler(async (req, res, next) => {
-    jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
+    const verification = jwt.verify(req.token, process.env.TOKEN_SECRET, (err, authData) => {
         if (err) {
             res.sendStatus(403);
-        } 
-    }))
+            return false
+        } else {
+            return true;
+        }
+    });
 
-    const post = await Post.findById(req.params.postId).populate("user comments").exec();
+    if (verification) {
+        const post = await Post.findById(req.params.postId).populate("user comments").exec();
 
-    res.json(post);
+        res.json(post);
+    }
+
 });
 
 exports.post_create_get = asyncHandler(async (req, res, next) => {
@@ -80,32 +86,45 @@ exports.post_create_post =[
 ]
 
 exports.post_update_get = asyncHandler(async (req, res, next) => {
-    jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
+    const verification = jwt.verify(req.token, process.env.TOKEN_SECRET, (err, authData) => {
         if (err) {
             res.sendStatus(403);
-        } 
-    }));
+            return false
+        } else {
+            return true;
+        }
+    });
 
-    const oldPost = await Post.findByIdAndUpdate(req.params.postId, {
-        title: req.body.title,
-        content: req.body.content,
-        htmlContent: req.body.htmlContent,
-        published: req.body.published
-    }).exec();
+    if (verification) {
+        const oldPost = await Post.findByIdAndUpdate(req.params.postId, {
+            title: req.body.title,
+            content: req.body.content,
+            htmlContent: req.body.htmlContent,
+            published: req.body.published
+        }).exec();
+    
+        res.json(oldPost);
+    }
 
-    res.json(oldPost);
 });
 
 exports.post_delete_get = asyncHandler (async (req, res, next) => {
-    jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
+    const verification = jwt.verify(req.token, process.env.TOKEN_SECRET, (err, authData) => {
         if (err) {
-            return res.sendStatus(403);
-        } 
-    }))
-    const post = await Post.findById(req.params.postId).exec();
-    post.comments.forEach(async(comment) => {
-        await Comment.findByIdAndDelete(comment).exec();
+            res.sendStatus(403);
+            return false
+        } else {
+            return true;
+        }
     });
+    
+    if (verification) {
+        const post = await Post.findById(req.params.postId).exec();
+        post.comments.forEach(async(comment) => {
+            await Comment.findByIdAndDelete(comment).exec();
+        });
+    
+        await Post.findByIdAndDelete(req.params.postId).exec();
+    }
 
-    await Post.findByIdAndDelete(req.params.postId).exec();
 });
