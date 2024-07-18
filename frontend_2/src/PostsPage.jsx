@@ -83,7 +83,9 @@ function PostsPage({published = true}) {
 
     const handleError = (response) => {
         console.log(response);
-        if (!response.ok) {
+        if (response.status === 403) {
+            throw Error("Forbidden. Please log in to proceed.")
+        } else if (!response.ok) {
             throw Error(response.statusText);
         } else {
             return response.json(response);
@@ -109,11 +111,7 @@ function PostsPage({published = true}) {
                 setPostsArray(newArray);
               })
               .catch((error) => {
-                if (error.message === 'Forbidden') {
-                    alert('Forbidden. Please log in to delete posts.')
-                } else {
                     alert(error.message);
-                }
               });
 
 
