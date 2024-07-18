@@ -20,3 +20,16 @@ The main purpose of this project was to practice setting up an API and accessing
 - [Site for author of blog](https://soft-kitsune-e21c61.netlify.app/)
 - [Site for readers of blog](https://fastidious-pastelito-4c67ec.netlify.app/)
 
+## Directions
+
+### Author Site
+
+1. Sign up for an account
+2. Log in to gain access 
+3. Start writing, editing, and deleting posts
+
+### Reader Site
+1. Sign up for an account
+2. Log in to gain access
+3. Start viewing posts and commenting
+
