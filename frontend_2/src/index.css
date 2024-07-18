@@ -132,6 +132,13 @@ header a {
   margin: 0 15px;
 }
 
+@media screen and (max-width: 500px) {
+  .main-header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
 .login-button,
 .submit-button {
   background: none;
