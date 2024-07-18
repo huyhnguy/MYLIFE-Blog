@@ -13,7 +13,7 @@ function PostDetails() {
 
     let postIdObject = useParams();
     let postId = postIdObject.postId;
-    let url = "http://localhost:3000/api/posts/" + postId;
+    let url = "https://unleashed-pool-ticket.glitch.me/api/posts/" + postId;
 
     useEffect(() => {
         fetch(url, {

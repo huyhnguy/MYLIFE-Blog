@@ -20,7 +20,7 @@ function LogInForm({ loginFunction }) {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        fetch('http://localhost:3000/api/users/login', {
+        fetch('https://unleashed-pool-ticket.glitch.me/api/users/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
