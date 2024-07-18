@@ -9,6 +9,7 @@ const comment_controller = require('../controllers/commentController');
 router.get('/', post_controller.home);
 router.post('/', post_controller.home);
 router.get("/posts", post_controller.post_list);
+router.get("/posts/create", verifyToken, post_controller.post_create_get);
 router.post("/posts/create", verifyToken, post_controller.post_create_post);
 router.get("/posts/:postId", verifyToken, post_controller.post_detail);
 router.post("/posts/:postId", post_controller.post_detail);

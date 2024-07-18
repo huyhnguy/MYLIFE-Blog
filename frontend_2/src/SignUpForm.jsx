@@ -24,8 +24,6 @@ function SignUpForm() {
             lastname: lastname,
         }
 
-        console.log(userData);
-
         fetch('http://localhost:3000/api/users/signup', {
             method: 'POST',
             headers: {
@@ -57,9 +55,9 @@ function SignUpForm() {
             <Navbar />
             <h1 className="signup-title">Sign Up</h1>
             <form action="" method="POST" className="signup-form">
-                <label htmlFor="username">Username</label>
+                <label htmlFor="signup-username">Username</label>
                 <input type="text" name="signup-username" id="signup-username"/>
-                <label htmlFor="password">Password</label>
+                <label htmlFor="signup-password">Password</label>
                 <input type="password" name="signup-password" id="signup-password"/>
                 <label htmlFor="confirm-password">Confirm Password</label>
                 <input type="password" name="confirm-password" id="confirm-password"/>

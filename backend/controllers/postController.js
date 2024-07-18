@@ -24,14 +24,21 @@ exports.post_detail = asyncHandler(async (req, res, next) => {
     jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
         if (err) {
             res.sendStatus(403);
-            next();
         } 
     }))
-    
+
     const post = await Post.findById(req.params.postId).populate("user comments").exec();
 
     res.json(post);
 });
+
+exports.post_create_get = asyncHandler(async (req, res, next) => {
+    jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } 
+    }))
+})
 
 exports.post_create_post =[
     body("title", "title empty")
@@ -49,7 +56,6 @@ exports.post_create_post =[
         jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
             if (err) {
                 res.sendStatus(403);
-                next();
             } 
             userId = authData.user._id;
         }))
@@ -77,7 +83,6 @@ exports.post_update_get = asyncHandler(async (req, res, next) => {
     jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
         if (err) {
             res.sendStatus(403);
-            next();
         } 
     }));
 
@@ -94,8 +99,7 @@ exports.post_update_get = asyncHandler(async (req, res, next) => {
 exports.post_delete_get = asyncHandler (async (req, res, next) => {
     jwt.verify(req.token, process.env.TOKEN_SECRET, asyncHandler (async (err, authData) => {
         if (err) {
-            res.sendStatus(403);
-            next();
+            return res.sendStatus(403);
         } 
     }))
     const post = await Post.findById(req.params.postId).exec();

@@ -16,9 +16,17 @@ body {
   margin: 0;
 }
 
-main, section, .post-form, .signup-form, .signup-title {
+main, section, .post-form, .signup-form, .signup-title, .signup-error {
   max-width: 80%;
   margin-inline: auto;
+}
+
+.icon {
+  width: 100px;
+}
+
+.website-title {
+  margin: 0;
 }
 
 .post {
@@ -116,7 +124,9 @@ header a {
   text-align: center;
   margin: 0;
   font-weight: 900;
-  font-size: 3em;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
 }
 
 .main-header {
@@ -139,8 +149,19 @@ header a {
   outline: inherit;
 }
 
-.login-button:hover {
+.login-button:hover, .submit-button:hover {
   background-color: #469fff;
+}
+
+.login-error {
+  grid-column: span 2;
+  color: red;
+  width: 245.47px;
+  margin: 0;
+}
+
+.signup-error{
+  color: red;
 }
 
 .invisible-div {

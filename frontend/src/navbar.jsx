@@ -1,6 +1,7 @@
 import LogInForm from "./LogInForm"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import icon from "./assets/icon.png";
 
 function Navbar() {
     const [login, setLogin] = useState(localStorage.getItem("token"));
@@ -29,15 +30,9 @@ function Navbar() {
         <>
             <header className="main-header">
                 <div className="invisible-div"></div>
-                <h1 className="logo"><a href="/">MYLIFE</a></h1>
+                <h1 className="website-title"><a href="/" className="logo"><img src={icon} alt="icon" className="icon"/>MYLIFE</a></h1>
                 { login ? <button className="login-button" onClick={handleLogout}>Logout</button> : <button className="login-button" onClick={handleLogin}>Login</button> }
             </header>
-            <hr />
-            <nav>
-                <ul className="navbar">
-                    <li><a href="/posts">Posts</a></li>
-                </ul>
-            </nav>
             <hr className="navbar-line"/>
             <LogInForm loginFunction={loginSuccess} />
         </>

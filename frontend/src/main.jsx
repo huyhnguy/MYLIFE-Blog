@@ -11,7 +11,7 @@ import SignUpForm from './SignUpForm.jsx'
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />
+    element: <PostsPage />
   },
   {
     path: "/posts",

@@ -1,6 +1,6 @@
 import Navbar from "./navbar";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
 
@@ -36,13 +36,35 @@ function Tinymce({ value }) {
   }
 
 function PostForm() {
-  const [errorArray, setErrorArray] = useState(null);
+  const [pageError, setPageError] = useState(false);
+  const [formErrors, setFormErrors] = useState(null);
 
     let navigate = useNavigate();
     const location = useLocation();
     let postIdObject = useParams();
     let postId = postIdObject.postId;
     let url = 'http://localhost:3000/api/posts/' + postId;
+
+    useEffect(() => {
+      fetch("http://localhost:3000/api/posts/create", {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => {
+          console.log(res);
+          if (res.status === 403) {
+              throw new Error('Forbidden. Please log in to create a post.')
+          } 
+        })
+        .catch((e) => {
+          console.log(e);
+          setPageError(e.message);
+        })
+    }, [])
 
     const handleEdit = (event) => {
       event.preventDefault();
@@ -106,7 +128,7 @@ function PostForm() {
             console.log(data.published);
 
             if (data.errors) {
-              setErrorArray(data.errors);
+              setFormErrors(data.errors);
             }
 
             if (data.published) {
@@ -122,13 +144,22 @@ function PostForm() {
         })
     }
 
+    if (pageError) {
+      return (
+        <>
+          <Navbar />
+          <p>{pageError}</p>
+        </>
+      )
+    }
+
     return(
         <>
             <Navbar />
             <h1 className="post-form-title">Create a Post</h1>
-            {errorArray && 
+            {formErrors && 
                 <ul>
-                    {errorArray.map(error => <li className="post-error">{error.msg}</li>)}
+                    {formErrors.map(error => <li className="post-error">{error.msg}</li>)}
                 </ul>
             }
             <form action="" method="POST" className="post-form">

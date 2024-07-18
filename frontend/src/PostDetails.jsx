@@ -6,21 +6,41 @@ import ReactHtmlParser from 'react-html-parser';
 import { DateTime } from 'luxon';
 
 function PostDetails() {
+    const [errorMessage, setErrorMessage] = useState(null)
     const [data, setData] = useState(null)
-    const [commentsArray, setCommentsArray] = useState(null);
-    console.log(data);
+    const [comments, setComments] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     let postIdObject = useParams();
     let postId = postIdObject.postId;
     let url = "http://localhost:3000/api/posts/" + postId;
 
     useEffect(() => {
-        fetch(url)
-          .then((res) => res.json(res))
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`,
+            },
+        })
+          .then((res) => {
+            if (res.status === 403) {
+                throw new Error('Forbidden. Please log in to see the post.')
+            } else {
+                return res.json();
+            }
+          })
           .then((data) => {
-            setData(data)
-            setCommentsArray(data.comments);
-        });
+            setData(data);
+            setComments(data.comments);
+            setLoading(false)
+          })
+          .catch((e) => {
+            console.log(e);
+            setErrorMessage(e.message);
+            setLoading(false);
+          })
     }, []);
 
     const handleSubmit = (e) => {
@@ -43,16 +63,33 @@ function PostDetails() {
         })
             .then(res => res.json())
             .then((comment) => {
-                setCommentsArray([...commentsArray, comment])
+                setComments([...comments, comment])
                 commentInput.value = "";
-                console.log(commentInput)
             })
 
     }
 
+    if (loading) {
+        return(
+            <>
+                <Navbar />
+                <p>Loading...</p>
+            </>
+        )
+    }
+
+    if (errorMessage) {
+        return(
+            <>
+                <Navbar />
+                <p>{errorMessage}</p>
+            </>
+        )
+    }
+
 
     if (data) {
-        const commentsElements = [...commentsArray].reverse().map((comment) => {
+        const commentsElements = [...comments].reverse().map((comment) => {
             const commentDateFormatted = DateTime.fromISO(comment.date).toLocaleString(DateTime.DATETIME_MED);
 
             return(
