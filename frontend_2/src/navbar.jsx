@@ -36,7 +36,7 @@ function Navbar() {
             <hr />
             <nav>
                 <ul className="navbar">
-                    <li><a href="/posts">Posts</a></li>
+                    <li><a href="/">Posts</a></li>
                     <li><a href="/posts/unpublished">Unpublished Posts</a></li>
                     <li><a href="/posts/create">Create a Post</a></li>
                 </ul>

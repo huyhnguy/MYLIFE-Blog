@@ -15,10 +15,6 @@ const router = createBrowserRouter([
     element: <PostsPage />
   },
   {
-    path: "/posts",
-    element: <PostsPage />
-  },
-  {
     path: "/posts/unpublished",
     element: <PostsPage published={false} />
   },
