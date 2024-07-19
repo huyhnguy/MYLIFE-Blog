@@ -50,6 +50,12 @@ main, section, .post-form, .signup-form, .signup-title, .signup-error {
   margin: 0;
 }
 
+.comment {
+  border-radius: 15px;
+  border: solid rgba(128, 128, 128, 0.50);
+  padding: 10px;
+}
+
 .comment-form {
   margin-bottom: 2.5em;
 }

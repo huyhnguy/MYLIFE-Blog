@@ -97,7 +97,6 @@ function PostDetails() {
                     <h3>{comment.fullname}</h3>
                     <p>{commentDateFormatted}</p>
                     <p>{comment.content}</p>
-                    <hr />
                 </article>
             )
 

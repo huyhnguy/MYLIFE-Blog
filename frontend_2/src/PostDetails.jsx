@@ -98,7 +98,6 @@ function PostDetails({ published }) {
                     </div>
                     <p>{commentDateFormatted}</p>
                     <p>{comment.content}</p>
-                    <hr />
                 </article>
             )
 

@@ -50,6 +50,12 @@ main, section, .post-form, .signup-form, .signup-title, .signup-error, .post-err
   margin: 0;
 }
 
+.comment {
+  border-radius: 15px;
+  border: solid rgba(128, 128, 128, 0.50);
+  padding: 10px;
+}
+
 .posts, .comments {
   display: flex;
   flex-direction: column;
