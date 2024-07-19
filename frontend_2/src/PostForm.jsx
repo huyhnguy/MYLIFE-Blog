@@ -93,7 +93,7 @@ function PostForm() {
       .then(response => response.json())
       .then((data) => {
           console.log(data);
-          let path = '/posts';
+          let path = '/';
           navigate(path);
       })
     }
@@ -124,15 +124,13 @@ function PostForm() {
         .then(response => response.json())
         .then((data) => {
             let path;
-            console.log(data);
-            console.log(data.published);
 
             if (data.errors) {
               setFormErrors(data.errors);
             }
 
             if (data.published) {
-              path = '/posts';
+              path = '/';
               navigate(path);
             } else if (data.published === false) {
               path = '/posts/unpublished'
