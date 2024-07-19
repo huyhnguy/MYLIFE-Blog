@@ -12,25 +12,12 @@ function Post({ info, published, deleteFunction, keyId }) {
 
     let navigate = useNavigate();
 
-    const handleClick = () => {
-        const path = './' + info._id;
-        navigate(path);
-    };
-
     const handleEdit = (e) => {
-        const path = './' + info._id + '/edit';
+        const path = 'posts/' + info._id + '/edit';
         navigate(path, {
             state: {data}
         });
         e.stopPropagation();
-    }
-
-    const handleError = (response) => {
-        if (!response.ok) {
-            throw Error(response.statusText);
-        } else {
-            return response.json(response);
-        }
     }
 
     const snippet = data.content.substring(0,300) + '...';
@@ -66,6 +53,7 @@ function Post({ info, published, deleteFunction, keyId }) {
 function PostsPage({published = true}) {
     const [postsArray, setPostsArray] = useState(null);
     const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetch("https://unleashed-pool-ticket.glitch.me/api/posts", {
@@ -77,8 +65,14 @@ function PostsPage({published = true}) {
             },
         })
           .then((res) => handleError(res))
-          .then((data) => setPostsArray(data))
-          .catch((error) => setError(error));
+          .then((data) => {
+            setPostsArray(data);
+            setLoading(false);
+            })
+          .catch((error) => {
+            setError(error);
+            setLoading(false);
+        });
     }, []);
 
     const handleError = (response) => {
@@ -120,6 +114,24 @@ function PostsPage({published = true}) {
         event.stopPropagation();
     }
 
+    if (loading) {
+        return (
+            <>
+                <Navbar />
+                <p>Loading... This may take a couple of seconds. Thanks for waiting!</p>
+            </>
+        )
+    }
+
+    if (error) {
+        return (
+            <>
+                <Navbar />
+                <p>{error.name}: {error.message}</p>
+            </>
+        )
+    }
+
     if (postsArray) {
         let posts;
 
@@ -143,7 +155,6 @@ function PostsPage({published = true}) {
             } )
         }
 
-
         return(
             <>
                 <Navbar />
@@ -160,16 +171,7 @@ function PostsPage({published = true}) {
                 }
             </>
         )
-    } else {
-        return(
-            <>
-                <Navbar />
-                {error ? <p>{error.name}: {error.message}</p> : <p>Loading...</p>}
-            </>
-        )
-
-    }
-
+    } 
 }
 
 export default PostsPage
