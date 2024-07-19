@@ -57,6 +57,7 @@ function Post({ info, keyId }) {
 function PostsPage({published = true}) {
     const [postsArray, setPostsArray] = useState(null);
     const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetch("https://unleashed-pool-ticket.glitch.me/api/posts", {
@@ -68,40 +69,42 @@ function PostsPage({published = true}) {
             },
         })
           .then((res) => handleError(res))
-          .then((data) => setPostsArray(data))
-          .catch((error) => setError(error));
+          .then((data) => {
+            setPostsArray(data);
+            setLoading(false);
+          })
+          .catch((error) => {
+            setError(error);
+            setLoading(false);
+          });
     }, []);
 
     const handleError = (response) => {
-        if (!response.ok) {
+        if (response.status === 403) {
+            throw Error("Forbidden. Please log in to proceed.")
+        } else if (!response.ok) {
             throw Error(response.statusText);
         } else {
             return response.json(response);
         }
     }
 
-    const handleDelete = (event, postId ) => {
-        if (confirm("Press 'OK' to permanently delete this post.")) {
+    if (loading) {
+        return (
+            <>
+                <Navbar />
+                <p>Loading... This may take a couple of seconds. Thanks for waiting!</p>
+            </>
+        )
+    }
 
-            const url = 'http://localhost:3000/api/posts/' + postId;
-
-            fetch(url, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("token")}`,
-                },
-            })
-              .then((res) => handleError(res))
-              .then((data) => setPostsArray(data))
-              .catch((error) => {setError(error)});
-
-            const newArray = postsArray.filter((post) => post._id != postId);
-            setPostsArray(newArray);
-        } 
-
-        event.stopPropagation();
+    if (error) {
+        return (
+            <>
+                <Navbar />
+                <p>{error.name}: {error.message}</p>
+            </>
+        )
     }
 
     if (postsArray) {
@@ -133,16 +136,7 @@ function PostsPage({published = true}) {
                 }
             </>
         )
-    } else {
-        return(
-            <>
-                <Navbar />
-                {error ? <p>{error.name}: {error.message}</p> : <p>Loading...</p>}
-            </>
-        )
-
-    }
-
+    } 
 }
 
 export default PostsPage
