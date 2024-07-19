@@ -14,6 +14,10 @@ This web app consists of an API only backend and two different frontends. One fr
 
 ## Directions
 
+If you don't want to sign up for any accounts, you can use this to log in:
+- Username: Huy
+- Password: Nguyen
+
 ### Author Site
 
 1. Sign up for an account
