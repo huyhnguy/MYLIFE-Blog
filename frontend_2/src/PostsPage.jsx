@@ -107,7 +107,13 @@ function PostsPage({published = true}) {
                     'Authorization': `Bearer ${localStorage.getItem("token")}`,
                 },
             })
-              .then((res) => handleError(res))
+              .then((response) => {
+                if (response.status === 403) {
+                    throw Error("Forbidden. Please log in to proceed.")
+                } else if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+              })
               .then(() => {
                 const newArray = postsArray.filter((post) => post._id != postId);
                 setPostsArray(newArray);
