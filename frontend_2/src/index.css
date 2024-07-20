@@ -216,7 +216,12 @@ header a {
 .guest-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.guest-section p {
+  margin: 0
 }
 
 .guest-section button {

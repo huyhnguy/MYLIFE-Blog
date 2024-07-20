@@ -199,6 +199,17 @@ header a {
   background-color: #469fff;
 }
 
+.guest-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.guest-section p {
+  margin: 0
+}
+
 .login-error {
   grid-column: span 2;
   color: red;
