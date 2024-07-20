@@ -92,9 +92,19 @@ function PostForm() {
       })
       .then(response => response.json())
       .then((data) => {
-          console.log(data);
-          let path = '/';
+        let path;
+
+        if (data.errors) {
+          setFormErrors(data.errors);
+        }
+
+        if (data.published) {
+          path = '/posts';
           navigate(path);
+        } else if (data.published === false) {
+          path = '/posts/unpublished'
+          navigate(path);
+        }
       })
     }
 
@@ -130,15 +140,12 @@ function PostForm() {
             }
 
             if (data.published) {
-              path = '/';
+              path = '/posts';
               navigate(path);
             } else if (data.published === false) {
               path = '/posts/unpublished'
               navigate(path);
             }
-
-
-
         })
     }
 

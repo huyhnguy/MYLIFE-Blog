@@ -15,14 +15,14 @@ function Navbar() {
 
     const loginSuccess = () => {
         setLogin(true);
-        let path = '/';
+        let path = '/posts';
         navigate(path);
     }
 
     const handleLogout = () => {
         localStorage.clear();
         setLogin(false);
-        let path = '/';
+        let path = '/posts';
         navigate(path);
     }
 
@@ -32,7 +32,7 @@ function Navbar() {
                 <header className="main-header">
                     <div className="invisible-div"></div>
                     <div className="website-title-div">
-                        <h1 className="website-title"><a href="/" className="logo"><img src={icon} alt="icon" className="icon"/>MYLIFE</a></h1>
+                        <h1 className="website-title"><a href="/posts" className="logo"><img src={icon} alt="icon" className="icon"/>MYLIFE</a></h1>
                         <h2>(authors)</h2>
                     </div>
                     { login ? 
@@ -44,7 +44,7 @@ function Navbar() {
                 <hr />
                 <nav>
                     <ul className="navbar">
-                        <li><a href="/">Posts</a></li>
+                        <li><a href="/posts">Posts</a></li>
                         <li><a href="/posts/unpublished">Unpublished Posts</a></li>
                         <li><a href="/posts/create">Create a Post</a></li>
                     </ul>

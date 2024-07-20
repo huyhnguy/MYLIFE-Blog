@@ -12,6 +12,10 @@ import PostForm from './PostForm.jsx'
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <App />
+  },
+  {
+    path: "/posts",
     element: <PostsPage />
   },
   {

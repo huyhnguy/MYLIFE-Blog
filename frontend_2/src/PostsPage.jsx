@@ -13,17 +13,11 @@ function Post({ info, published, deleteFunction, keyId }) {
     let navigate = useNavigate();
 
     const handleEdit = (e) => {
-        if (published) {
-            const path = 'posts/' + info._id + '/edit';
-            navigate(path, {
-                state: {data}
-            });
-        } else {
             const path = info._id + '/edit';
             navigate(path, {
                 state: {data}
             });
-        }
+
 
         e.stopPropagation();
     }

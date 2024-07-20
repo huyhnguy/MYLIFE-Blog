@@ -48,7 +48,7 @@ function LogInForm({ loginFunction }) {
                     window.localStorage.setItem("token", data.token);
                     window.localStorage.setItem("full_name", data.full_name);
                     clearFormFields();
-                    let path = '/';
+                    let path = '/posts';
                     navigate(path);
                     handleClose();
                     loginFunction();

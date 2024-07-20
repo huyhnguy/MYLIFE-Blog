@@ -1,11 +1,17 @@
-import Navbar from './navbar';
-
 
 function App() {
 
   return (
     <>
-      <Navbar />
+      <main class="site-router">
+        <h1 className="site-question">Welcome to MYLIFE Blog! Which one are you?</h1>
+        <div className="site-options">
+          <a href="/posts">Author</a>
+          <a href="https://fastidious-pastelito-4c67ec.netlify.app/">Reader</a>
+        </div>
+
+      </main>
+
     </>
   )
 }

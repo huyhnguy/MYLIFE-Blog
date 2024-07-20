@@ -11,6 +11,24 @@
     "YTLC" 500;
 }
 
+.site-router {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2em;
+  height: 100vh;
+}
+
+.site-question {
+  text-align: center;
+}
+
+.site-options {
+  display: flex;
+  justify-content: space-evenly;
+  font-size:1.5em;
+}
+
 body {
   font-family: "Nunito Sans", sans-serif;
   margin: 0;

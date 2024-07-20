@@ -42,7 +42,7 @@ function SignUpForm() {
 
                 if (data.success) {
                     alert("You have signed up successfully. Please log in.")
-                    let path = "/"
+                    let path = "/posts"
                     navigate(path);
                 }
             })
