@@ -31,6 +31,18 @@ main, section, .post-form, .signup-form, .signup-title, .signup-error, .post-err
   width: 100px;
 }
 
+.website-title-div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.website-title-div h2 {
+  margin: 0;
+}
+
 .website-title {
   margin: 0;
 }
@@ -152,15 +164,38 @@ header a {
   margin: 0 15px;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 700px) {
   .main-header {
     flex-wrap: wrap;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  #login-div {
+    align-items: center;
+  }
+  
+  .login-div p {
+    margin: 0;
+    margin-bottom: 5px;
   }
 }
 
+@media screen and (max-width: 400px) {
+  .website-title-div {
+
+  }
+}
+
+.login-div {
+  display: flex;
+  align-items: end;
+  flex-direction: column;
+}
+
 .login-button,
-.submit-button {
+.submit-button, 
+.guest-section button {
   background: none;
   color: white;
   background-color: #007BFF;
@@ -172,8 +207,20 @@ header a {
   outline: inherit;
 }
 
-.login-button:hover, .submit-button:hover {
+.login-button:hover, 
+.submit-button:hover, 
+.guest-section button:hover {
   background-color: #469fff;
+}
+
+.guest-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.guest-section button {
+  width: 100%;
 }
 
 .login-error {
