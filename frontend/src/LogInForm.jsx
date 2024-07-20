@@ -63,6 +63,44 @@ function LogInForm({ loginFunction }) {
         loginForm.close();
     }
 
+    const handleGuest = () => {
+        if (error) {setError(null)};
+
+        fetch('https://unleashed-pool-ticket.glitch.me/api/users/login', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: 'guest',
+                password: 'guest',
+            })
+        })
+            .then(response => {
+                if (response.status === 401) {
+                    return 'The username and password you entered does not match any account. Please try again.'
+                } 
+                
+                return response.json();
+            })
+            .then((data) => {
+                if (data === 'The username and password you entered does not match any account. Please try again.') {
+                    setError(data);
+                }
+
+                if (data.token) {
+                    window.localStorage.setItem("token", data.token);
+                    window.localStorage.setItem("full_name", data.full_name);
+                    clearFormFields();
+                    let path = '/';
+                    navigate(path);
+                    handleClose();
+                    loginFunction();
+                }
+            })
+    }
+
     return(
         <>
             <dialog className="login-form" id="login-form">
@@ -79,6 +117,11 @@ function LogInForm({ loginFunction }) {
                     { error && <p className="login-error">{error}</p> }
                     <input type="submit" value="Submit" onClick={handleSubmit} className="submit-button"/>
                 </form>
+                <hr />
+                <div className='guest-section'>
+                    <p>Don't want to create an account?</p>
+                    <button onClick={handleGuest}>Log in as guest</button>
+                </div>
             </dialog>
         </>
     )
