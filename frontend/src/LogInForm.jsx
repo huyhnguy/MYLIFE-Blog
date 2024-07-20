@@ -108,7 +108,6 @@ function LogInForm({ loginFunction }) {
                     <h1>Log In</h1>
                     <button className="close-button" onClick={handleClose}>&#x274c;</button>
                 </header>
-                <p>Not a member? <a href="/signup">Create an Account</a></p>
                 <form action="" method="POST">
                     <label htmlFor="username">Username</label>
                     <input type="text" name="username" id="username"/>
@@ -119,6 +118,7 @@ function LogInForm({ loginFunction }) {
                 </form>
                 <hr />
                 <div className='guest-section'>
+                    <p>Not a member? <a href="/signup">Create an Account</a></p>
                     <p>Don't want to create an account?</p>
                     <button onClick={handleGuest}>Log in as guest</button>
                 </div>

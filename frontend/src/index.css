@@ -210,6 +210,11 @@ header a {
   margin: 0
 }
 
+.guest-section button {
+  width: 100%;
+}
+
+
 .login-error {
   grid-column: span 2;
   color: red;
