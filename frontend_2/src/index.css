@@ -21,6 +21,12 @@ main, section, .post-form, .signup-form, .signup-title, .signup-error, .post-err
   margin-inline: auto;
 }
 
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .icon {
   width: 100px;
 }

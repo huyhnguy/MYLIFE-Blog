@@ -125,6 +125,7 @@ exports.post_delete_get = asyncHandler (async (req, res, next) => {
         });
     
         await Post.findByIdAndDelete(req.params.postId).exec();
+        res.sendStatus(200);
     }
 
 });

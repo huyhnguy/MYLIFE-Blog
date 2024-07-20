@@ -93,7 +93,10 @@ function PostsPage({published = true}) {
         return (
             <>
                 <Navbar />
-                <p>Loading... This may take a couple of seconds. Thanks for waiting!</p>
+                <main className="error-page">
+                    <h1>Loading...</h1>
+                    <p>Initial start up may take 10-20 seconds. Thanks for waiting!</p>
+                </main>
             </>
         )
     }
