@@ -131,6 +131,14 @@ header a {
   align-items: center;
 }
 
+.sticky-header {
+  position: sticky;
+  max-width: none;
+  margin-inline: inherit;
+  top: 0px;
+  background-color: white;
+}
+
 .main-header {
   display:flex;
   justify-content: space-between;

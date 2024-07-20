@@ -28,20 +28,23 @@ function Navbar() {
 
     return(
         <>
-            <header className="main-header">
-                <div className="invisible-div"></div>
-                <h1 className="website-title"><a href="/" className="logo"><img src={icon} alt="icon" className="icon"/>MYLIFE</a></h1>
-                { login ? <button className="login-button" onClick={handleLogout}>Logout</button> : <button className="login-button" onClick={handleLogin}>Login</button> }
-            </header>
-            <hr />
-            <nav>
-                <ul className="navbar">
-                    <li><a href="/">Posts</a></li>
-                    <li><a href="/posts/unpublished">Unpublished Posts</a></li>
-                    <li><a href="/posts/create">Create a Post</a></li>
-                </ul>
-            </nav>
-            <hr className="navbar-line"/>
+            <section className="sticky-header">
+                <header className="main-header">
+                    <div className="invisible-div"></div>
+                    <h1 className="website-title"><a href="/" className="logo"><img src={icon} alt="icon" className="icon"/>MYLIFE</a></h1>
+                    { login ? <button className="login-button" onClick={handleLogout}>Logout</button> : <button className="login-button" onClick={handleLogin}>Login</button> }
+                </header>
+                <hr />
+                <nav>
+                    <ul className="navbar">
+                        <li><a href="/">Posts</a></li>
+                        <li><a href="/posts/unpublished">Unpublished Posts</a></li>
+                        <li><a href="/posts/create">Create a Post</a></li>
+                    </ul>
+                </nav>
+                <hr className="navbar-line"/>
+            </section>
+
             <LogInForm loginFunction={loginSuccess} />
         </>
 
