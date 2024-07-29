@@ -173,6 +173,7 @@ header a {
   margin-inline: inherit;
   top: 0px;
   background-color: white;
+  z-index: 10;
 }
 
 .main-header {
